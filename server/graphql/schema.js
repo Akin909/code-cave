@@ -4,24 +4,24 @@ import { resolvers } from './resolvers';
 
 const typeDefs = `
   type User {
-    id: Int!
-    firstname: String
-    surname: String
-    username: String
+    id: ID!
+    firstname: String!
+    surname: String!
+    username: String!
   }
 
   type Codebase {
-    id: Int!
+    id: ID!
     user_id: Int!
-    code: String!;
+    code: String!
   }
 
   # the schema allows the following queries
 
   type Query {
     users: [User]
-    user(id: Int!): User
-    code(id: Int!): findCode
+    user(id: Int!): [User]
+    code(id: Int!): [Codebase]
   }
 `;
 
