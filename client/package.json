@@ -6,7 +6,7 @@
   "author": "Akin Sowemimo",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "concurrently \"webpack-dev-server\" \"nodemon ./../server/server.js --exec babel-node -e js\"",
     "build": "webpack -p"
   },
   "devDependencies": {
@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "apollo-client": "^1.7.0",
+    "babel-cli": "^6.24.1",
     "babel-polyfill": "^6.23.0",
     "babel-runtime": "^6.23.0",
     "react": "^15.5.4",
@@ -31,6 +32,7 @@
     "react-redux": "^5.0.5",
     "react-router": "^4.1.1",
     "redux": "^3.7.1",
+    "redux-devtools-extension": "^2.13.2",
     "redux-saga": "^0.15.4",
     "styled-components": "^2.1.1"
   }

@@ -1,3 +1,3 @@
 require('babel-register');
-require('./../src/schema/schema.js');
+require('./../src/graphql/schema.js');
 require('./server');

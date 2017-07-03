@@ -1,7 +1,10 @@
 //@flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { graphql, compose } from 'react-apollo';
 import styled from 'styled-components';
+
+import queries from './../queries/';
 import { saveCode } from './../actions/';
 
 const EditorContainer = styled.div`
@@ -21,6 +24,7 @@ const CodeInput = styled.textarea`
 
 class Editor extends Component {
   render() {
+    console.log('this.props', this.props);
     return (
       <EditorContainer>
         Editor
@@ -34,4 +38,7 @@ function mapStateToProps(state) {
   return {};
 }
 
-export default connect(mapStateToProps, { saveCode })(Editor);
+export default compose(
+  graphql(queries),
+  connect(mapStateToProps, { saveCode })
+)(Editor);
