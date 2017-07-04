@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import { Button } from './../styled';
+import { Button, Input, Form, Label } from './../styled';
+import Select from './Select';
 
 const MenuButton = styled(Button)`
   top:  2em;
@@ -32,10 +33,38 @@ const MenuTitle = styled.h2`
   color: white;
 `;
 
-const Options = ({ fontSize, theme, visible, handleMenuClick }) => {
+const Options = ({
+  editorConfig: { fontSize, theme, language },
+  themes,
+  languages,
+  visible,
+  handleMenuClick,
+  changeFontSize,
+  changeTheme,
+  changeLanguage
+}) => {
+  console.log('changeTheme', changeLanguage);
   return (
     <OptionsDrawer visible={visible}>
       <MenuTitle>Options</MenuTitle>
+      <Form>
+        <Label>
+          Font Size:
+          <Input placeholder="Font size" onChange={changeFontSize} />
+        </Label>
+        <Label>
+          Language:
+          <Select
+            array={languages}
+            handleChange={changeLanguage}
+            selected={language}
+          />
+        </Label>
+        <Label>
+          Theme
+          <Select array={themes} selected={theme} handleChange={changeTheme} />
+        </Label>
+      </Form>
     </OptionsDrawer>
   );
 };
@@ -43,14 +72,19 @@ const Options = ({ fontSize, theme, visible, handleMenuClick }) => {
 Options.defaultProps = {
   fontSize: '14',
   theme: 'tomorrow_night',
-  visible: false
+  visible: false,
+  languages: [],
+  themes: []
 };
 
 Options.propTypes = {
-  fontSize: PropTypes.string,
-  theme: PropTypes.string,
+  languages: PropTypes.array,
+  themes: PropTypes.array,
   handleMenuClick: PropTypes.func,
-  visible: PropTypes.bool
+  visible: PropTypes.bool,
+  changeFontSize: PropTypes.func,
+  changeTheme: PropTypes.func,
+  changeLanguage: PropTypes.func
 };
 
 export default Options;

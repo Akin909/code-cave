@@ -9,10 +9,17 @@ import brace from 'brace';
 
 import 'brace/theme/tomorrow_night';
 import 'brace/mode/javascript';
+import 'brace/mode/java';
+import 'brace/mode/ruby';
 
 import queries from './../queries/';
 import { Title, Button } from './styled';
-import { saveCode } from './../actions/';
+import {
+  saveCode,
+  changeTheme,
+  changeFontSize,
+  changeLanguage
+} from './../actions/';
 
 import Options from './Options';
 
@@ -42,8 +49,16 @@ const CodeEditor = styled(AceEditor)`
 class Editor extends Component {
   state = {
     code: '',
-    visible: false
+    visible: false,
+    languages: ['javascript', 'java', 'ruby'],
+    themes: ['tomorrow_night']
   };
+
+  generateProps = propsObj => ({
+    ...this.state,
+    ...this.props,
+    ...propsObj
+  });
 
   handleMenuClick = e => {
     this.setState({ visible: !this.state.visible });
@@ -56,32 +71,38 @@ class Editor extends Component {
   };
 
   render() {
-    //console.log('this.props', this.props);
-    const { code, visible } = this.state;
+    const props = this.generateProps();
+    const { theme, language } = this.props.editorConfig;
     return (
       <EditorContainer>
-        <Options handleMenuClick={this.handleMenuClick} visible={visible} />
+        <Options handleMenuClick={this.handleMenuClick} {...props} />
         <Title>Editor</Title>
-        <MenuButton visible={visible} onClick={this.handleMenuClick} />
+        <MenuButton
+          visible={this.state.visible}
+          onClick={this.handleMenuClick}
+        />
         <CodeEditor
           enableBasicAutoCompletion={true}
           width={'50%'}
           height={'80%'}
-          value={code}
+          value={this.state.code}
           onChange={this.handleChange}
-          mode="javascript"
-          theme="tomorrow_night"
+          mode={language}
+          theme={theme}
         />
       </EditorContainer>
     );
   }
 }
 
-function mapStateToProps(state) {
-  return {};
-}
+const mapStateToProps = ({ editorConfig }) => ({ editorConfig });
 
 export default compose(
   graphql(queries),
-  connect(mapStateToProps, { saveCode })
+  connect(mapStateToProps, {
+    saveCode,
+    changeFontSize,
+    changeTheme,
+    changeLanguage
+  })
 )(Editor);
