@@ -20,3 +20,8 @@ export const changeLanguage = (language: string) => ({
   type: c.CHANGE_LANGUAGE,
   language
 });
+
+export const signIn = (user: Object) => ({
+  type: c.SIGN_IN,
+  user
+});

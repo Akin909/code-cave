@@ -2,10 +2,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Button, Input, Form, Label } from './../Styled';
+import { RoundButton, Input, Form, Label } from './../Styled';
 import Select from './Select';
 
-const MenuButton = Button.extend`
+const MenuButton = RoundButton.extend`
   top:  2em;
   left: 3em;
   position: absolute;

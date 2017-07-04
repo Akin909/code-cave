@@ -8,6 +8,7 @@ const typeDefs = `
     firstname: String!
     surname: String!
     username: String!
+    code: [Codebase]
   }
 
   type Codebase {
@@ -21,7 +22,7 @@ const typeDefs = `
   type Query {
     users: [User]
     user(id: Int!): [User]
-    findCode(id: Int!): [Codebase]
+    findCode(id: Int!): User
   }
 `;
 

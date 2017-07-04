@@ -6,7 +6,7 @@ const initialConfig = {
   language: 'javascript'
 };
 
-export function editorConfig(state: object = initialConfig, action: object) {
+export function editorConfig(state: Object = initialConfig, action: Object) {
   switch (action.type) {
     case c.CHANGE_THEME:
       return {
@@ -29,6 +29,19 @@ export function editorConfig(state: object = initialConfig, action: object) {
   }
 }
 
+export function user(state: Object = {}, action) {
+  switch (action.type) {
+    case c.SIGN_IN:
+      return {
+        ...state,
+        signedIn: action.user
+      };
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
-  editorConfig
+  editorConfig,
+  user
 });

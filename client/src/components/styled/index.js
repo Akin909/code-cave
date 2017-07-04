@@ -1,4 +1,17 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+
+export const StyledLink = styled(Link)`
+  color: white;
+  margin: 0 1em;
+  font-size: 1.2em;
+  text-decoration: none;
+
+  &:hover {
+  text-decoration: underline;
+  font-weight: 800;
+  }
+`;
 
 export const Title = styled.h1`
   
@@ -8,10 +21,10 @@ export const Input = styled.input`
   border: none;
   border-radius: 4px;
   height: 3em;
-  width: 16em;
+  width: 80%;
   margin: 0.5em;
   padding: 0.3em;
-  font-size: 14px;
+  font-size: 1.2em;
 `;
 
 export const Form = styled.form`
@@ -36,6 +49,14 @@ export const Option = styled.option`
 `;
 
 export const Button = styled.button`
+  width: 80px;
+  height: 40px;
+  border-radius: 4px;
+  border: none;
+  box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.5);
+`;
+
+export const RoundButton = styled.button`
   background-color: #96D9FF;
   width: 50px;
   height: 50px;
