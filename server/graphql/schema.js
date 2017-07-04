@@ -1,6 +1,6 @@
 //Graphql Schema
 import { makeExecutableSchema } from 'graphql-tools';
-import { resolvers } from './resolvers';
+import resolvers from './resolvers';
 
 const typeDefs = `
   type User {
@@ -21,7 +21,7 @@ const typeDefs = `
   type Query {
     users: [User]
     user(id: Int!): [User]
-    code(id: Int!): [Codebase]
+    findCode(id: Int!): [Codebase]
   }
 `;
 
