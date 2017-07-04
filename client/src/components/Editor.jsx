@@ -8,12 +8,19 @@ import AceEditor from 'react-ace';
 import brace from 'brace';
 
 import 'brace/theme/tomorrow_night';
+import 'brace/theme/monokai';
+import 'brace/theme/github';
+import 'brace/theme/tomorrow';
+import 'brace/theme/solarized_dark';
+import 'brace/theme/terminal';
+import 'brace/theme/textmate';
+
 import 'brace/mode/javascript';
 import 'brace/mode/java';
 import 'brace/mode/ruby';
 
 import queries from './../queries/';
-import { Title, Button } from './styled';
+import { Title, Button } from './Styled';
 import {
   saveCode,
   changeTheme,
@@ -51,7 +58,15 @@ class Editor extends Component {
     code: '',
     visible: false,
     languages: ['javascript', 'java', 'ruby'],
-    themes: ['tomorrow_night']
+    themes: [
+      'tomorrow_night',
+      'monokai',
+      'github',
+      'tomorrow',
+      'textmate',
+      'solarized_dark',
+      'terminal'
+    ]
   };
 
   generateProps = propsObj => ({
@@ -73,6 +88,7 @@ class Editor extends Component {
   render() {
     const props = this.generateProps();
     const { theme, language } = this.props.editorConfig;
+    console.log('theme', theme);
     return (
       <EditorContainer>
         <Options handleMenuClick={this.handleMenuClick} {...props} />

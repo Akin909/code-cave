@@ -1,28 +1,31 @@
+//@flow
 import React from 'react';
-import PropTypes from 'prop-types';
 
-import { Select as StyledSelect, Option } from './../styled';
+import { capitaliseAndSpace } from './../../lib/utils';
 
-const Select = ({ array, handleChange, selected }) => (
+import { Select as StyledSelect, Option } from './../Styled';
+
+const Select = ({
+  array,
+  handleChange,
+  selected
+}: {
+  array: Array<any>,
+  handleChange: (event: Event) => void,
+  selected: string
+}) => (
   <StyledSelect
     onChange={({ target: { value } }) => handleChange(value)}
     defaultValue={selected}
   >
     {array.map((item, index) => (
-      <Option value={item} key={index}>{item}</Option>
+      <Option value={item} key={index}>{capitaliseAndSpace(item)}</Option>
     ))}
   </StyledSelect>
 );
 
 Select.defaultProps = {
-  array: [],
-  editorConfig: { fontSize: '14px', theme: 'tomorrow_night' }
-};
-
-Select.propTypes = {
-  array: PropTypes.array,
-  editorConfig: PropTypes.object,
-  handleChange: PropTypes.func
+  array: []
 };
 
 export default Select;

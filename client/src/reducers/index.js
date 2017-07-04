@@ -6,7 +6,7 @@ const initialConfig = {
   language: 'javascript'
 };
 
-export function editorConfig(state = initialConfig, action) {
+export function editorConfig(state: object = initialConfig, action: object) {
   switch (action.type) {
     case c.CHANGE_THEME:
       return {
@@ -20,7 +20,6 @@ export function editorConfig(state = initialConfig, action) {
       };
 
     case c.CHANGE_LANGUAGE:
-      console.log('action', action);
       return {
         ...state,
         language: action.language

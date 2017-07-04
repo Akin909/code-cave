@@ -1,11 +1,11 @@
+//@flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import { Button, Input, Form, Label } from './../styled';
+import { Button, Input, Form, Label } from './../Styled';
 import Select from './Select';
 
-const MenuButton = styled(Button)`
+const MenuButton = Button.extend`
   top:  2em;
   left: 3em;
   position: absolute;
@@ -34,7 +34,7 @@ const MenuTitle = styled.h2`
 `;
 
 const Options = ({
-  editorConfig: { fontSize, theme, language },
+  editorConfig,
   themes,
   languages,
   visible,
@@ -42,8 +42,17 @@ const Options = ({
   changeFontSize,
   changeTheme,
   changeLanguage
+}: {
+  editorConfig: Object,
+  themes: Array<string>,
+  languages: Array<string>,
+  visible: boolean,
+  handleMenuClick: (event: Event) => void,
+  changeFontSize: (fontSize: string) => Object,
+  changeTheme: (theme: string) => Object,
+  changeLanguage: (language: string) => Object
 }) => {
-  console.log('changeTheme', changeLanguage);
+  const { fontSize, theme, language } = editorConfig;
   return (
     <OptionsDrawer visible={visible}>
       <MenuTitle>Options</MenuTitle>
@@ -75,16 +84,6 @@ Options.defaultProps = {
   visible: false,
   languages: [],
   themes: []
-};
-
-Options.propTypes = {
-  languages: PropTypes.array,
-  themes: PropTypes.array,
-  handleMenuClick: PropTypes.func,
-  visible: PropTypes.bool,
-  changeFontSize: PropTypes.func,
-  changeTheme: PropTypes.func,
-  changeLanguage: PropTypes.func
 };
 
 export default Options;
