@@ -11,19 +11,25 @@ import 'brace/theme/tomorrow_night';
 import 'brace/mode/javascript';
 
 import queries from './../queries/';
-import { Title } from './styled';
+import { Title, Button } from './styled';
 import { saveCode } from './../actions/';
 
 import Options from './Options';
 
+const MenuButton = styled(Button)`
+  top:  1em;
+  left: 1em;
+  position: absolute;
+`;
+
 const EditorContainer = styled.div`
+  position: relative;
   width: 100%;
   height: 100%;
   background-color: cream;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 3em;
 `;
 
 const CodeEditor = styled(AceEditor)`
@@ -35,22 +41,28 @@ const CodeEditor = styled(AceEditor)`
 
 class Editor extends Component {
   state = {
-    code: ''
+    code: '',
+    visible: false
+  };
+
+  handleMenuClick = e => {
+    this.setState({ visible: !this.state.visible });
   };
 
   handleChange = code => {
-    console.log('code', code);
+    //console.log('code', code);
     this.setState({ code });
     this.props.saveCode(code);
   };
 
   render() {
-    console.log('this.props', this.props);
-    const { code } = this.state;
+    //console.log('this.props', this.props);
+    const { code, visible } = this.state;
     return (
       <EditorContainer>
+        <Options handleMenuClick={this.handleMenuClick} visible={visible} />
         <Title>Editor</Title>
-        <Options />
+        <MenuButton visible={visible} onClick={this.handleMenuClick} />
         <CodeEditor
           enableBasicAutoCompletion={true}
           width={'50%'}
