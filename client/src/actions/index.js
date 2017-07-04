@@ -1,21 +1,22 @@
+//@flow
 import c from './../constants/';
 
-export const saveCode = code => ({
+export const saveCode = (code: string) => ({
   type: c.SAVE_CODE,
   code
 });
 
-export const changeFontSize = size => ({
+export const changeFontSize = (fontSize: string) => ({
   type: c.CHANGE_FONT_SIZE,
   fontSize
 });
 
-export const changeTheme = theme => ({
+export const changeTheme = (theme: string) => ({
   type: c.CHANGE_THEME,
   theme
 });
 
-export const changeLanguage = language => ({
+export const changeLanguage = (language: string) => ({
   type: c.CHANGE_LANGUAGE,
   language
 });

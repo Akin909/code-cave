@@ -30,7 +30,7 @@ import {
 
 import Options from './Options';
 
-const MenuButton = styled(Button)`
+const MenuButton = Button.extend`
   top:  1em;
   left: 1em;
   position: absolute;
@@ -69,17 +69,17 @@ class Editor extends Component {
     ]
   };
 
-  generateProps = propsObj => ({
+  generateProps = (propsObj: Object | void) => ({
     ...this.state,
     ...this.props,
     ...propsObj
   });
 
-  handleMenuClick = e => {
+  handleMenuClick = (e: Event) => {
     this.setState({ visible: !this.state.visible });
   };
 
-  handleChange = code => {
+  handleChange = (code: string) => {
     //console.log('code', code);
     this.setState({ code });
     this.props.saveCode(code);
@@ -87,8 +87,8 @@ class Editor extends Component {
 
   render() {
     const props = this.generateProps();
+    console.log('props', this.props);
     const { theme, language } = this.props.editorConfig;
-    console.log('theme', theme);
     return (
       <EditorContainer>
         <Options handleMenuClick={this.handleMenuClick} {...props} />
@@ -111,7 +111,9 @@ class Editor extends Component {
   }
 }
 
-const mapStateToProps = ({ editorConfig }) => ({ editorConfig });
+const mapStateToProps = ({ editorConfig }: { editorConfig: Object }) => ({
+  editorConfig
+});
 
 export default compose(
   graphql(queries),
