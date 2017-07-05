@@ -136,11 +136,11 @@ const mapStateToProps = ({
 
 export default compose(
   graphql(queries.usersQuery),
-  graphql(queries.findUserCode, {
-    options: (props: Object) => ({
-      variables: { id: 1 /*props.user.id*/ }
-    })
-  }),
+  //graphql(queries.findUserCode, {
+  //options: (props: Object) => ({
+  //variables: { id: 1 [>props.user.id<] }
+  //})
+  //}),
   connect(mapStateToProps, {
     saveCode,
     changeFontSize,

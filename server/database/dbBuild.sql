@@ -20,6 +20,7 @@ INSERT INTO users (firstname, surname, username) VALUES
 
 
 INSERT INTO codebase (user_id, code) VALUES
+('1','() => fn => next => fn(next)'),
 ('1','function(name){\nconsole.log("Hello World")}');
 
 COMMIT;

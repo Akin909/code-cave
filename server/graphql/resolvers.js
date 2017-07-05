@@ -2,12 +2,22 @@ import db from './../database/dbConnection.js';
 
 const resolvers = {
   Query: {
-    users: () => {
-      return db
-        .query(
-          `SELECT * FROM users, codebase WHERE users.id = codebase.user_id`
-        )
-        .catch(err => err);
+    users: async () => {
+      try {
+        const users = await db.query(`SELECT * FROM users`);
+        return users.map(async user => {
+          const code = await db.query(
+            `SELECT * FROM codebase WHERE $1 = codebase.user_id`,
+            user.id
+          );
+          return {
+            ...user,
+            code
+          };
+        });
+      } catch (e) {
+        return e;
+      }
     },
     user: (_, { id }) =>
       db

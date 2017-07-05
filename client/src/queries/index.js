@@ -7,9 +7,7 @@ export const usersQuery = gql`
       firstname
       surname
       username
-      code {
-        code
-      }
+      code
     }
   }
 `;
@@ -17,10 +15,8 @@ export const usersQuery = gql`
 export const findUserCode = gql`
   query findUserCode($id: Int!) {
     findCode(id: $id){
-      username
-      code {
-        code
-      }
+      user_id
+      code
     }
   }
 `;
