@@ -1,9 +1,9 @@
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 
-const flex = css`
+export const flex = css`
   display:flex;
-  flex-direction: column;
+  flex-direction: ${props => (props.row ? 'row' : 'column')};
   align-items: center;
 `;
 

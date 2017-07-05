@@ -11,20 +11,25 @@ const Grid = styled.div`
 
 const CodeBlock = styled.pre`
   margin: 1em;
+  padding: 0.5em;
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   background-color: whitesmoke;
-  width: 30%;
+  width: 45%;
   height: 15em;
+  text-align: center;
 `;
 
-const codebase = ['function(){ hello }', 'Array.from({ length: 2 }, ()=>{})'];
+const codebase = [
+  'function(){ hello }',
+  'Array.from({ length: 2 }, ()=>{})',
+  '() => fn => (...args) => args.reduce(arg => fn(arg),fn(...args))'
+];
 
 class Home extends Component {
   render() {
     return (
       <Container>
-        Home
-        <Grid>
+        <Grid row>
           {codebase.map(code => <CodeBlock>{code}</CodeBlock>)}
         </Grid>
       </Container>

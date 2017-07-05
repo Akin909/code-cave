@@ -72,12 +72,13 @@ class Editor extends Component {
     const { user } = this.props;
     if (user.signedIn) {
       const { data: { users } } = this.props;
-      console.log('this.props', this.props);
       console.log('user', users);
-      //const currentUser = users.find(
-      //user => user.username === user.signedIn.username
-      //);
-      //console.log('currentUser', currentUser);
+      if (users) {
+        const currentUser = users.find(
+          user => user.username === user.signedIn.username
+        );
+        console.log('currentUser', currentUser);
+      }
     }
   };
 
@@ -92,7 +93,6 @@ class Editor extends Component {
   };
 
   handleChange = (code: string) => {
-    //console.log('code', code);
     this.setState({ code });
     this.props.saveCode(code);
   };
