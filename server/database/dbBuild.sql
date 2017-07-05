@@ -6,7 +6,8 @@ CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   firstname VARCHAR(100) NOT NULL,
   surname VARCHAR(100) NOT NULL,
-  username VARCHAR(100) NOT NULL
+  username VARCHAR(100) NOT NULL,
+  password VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE codebase (
@@ -15,12 +16,14 @@ CREATE TABLE codebase (
   code VARCHAR(500) NOT NULL
 );
 
-INSERT INTO users (firstname, surname, username) VALUES
-('Akin', 'Test', 'Akin909');
+INSERT INTO users (firstname, surname, username, password) VALUES
+('Akin', 'Test', 'Akin909', 'eggsandtomatoes');
 
 
 INSERT INTO codebase (user_id, code) VALUES
 ('1','() => fn => next => fn(next)'),
-('1','function(name){\nconsole.log("Hello World")}');
+('1','function(name){
+    console.log("Hello World")
+  }');
 
 COMMIT;

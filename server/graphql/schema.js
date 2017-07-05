@@ -8,6 +8,7 @@ const typeDefs = `
     firstname: String!
     surname: String!
     username: String!
+    password: String
     code: [Codebase]!
   }
 
@@ -28,7 +29,7 @@ const typeDefs = `
   type Mutation {
     # A mutation to add a new snippet of code or a new user
     addCode(code: String! user_id: Int): Codebase
-    addUser(username: String! firstname: String! surname: String!): User
+    addUser(username: String! firstname: String! surname: String! password: String!): User
   }
 `;
 

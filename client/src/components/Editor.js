@@ -95,8 +95,18 @@ class Editor extends Component {
     this.setState({ code });
   };
 
-  saveCurrentCode = (code: string) => {
+  saveCurrentCode = () => {
+    const { code } = this.state;
+    const { user: { signedIn }, mutate } = this.props;
     this.props.saveCode(code);
+    if (signedIn) {
+      mutate({
+        variables: {
+          code,
+          user_id: signedIn.id
+        }
+      });
+    }
   };
 
   render() {
@@ -139,8 +149,13 @@ const mapStateToProps = ({
 
 export default compose(
   graphql(queries.findUserCode, {
-    options: (props: Object) => ({
-      variables: { id: !props.user ? 1 : props.user.id }
+    options: ({ user }: { user: Object }) => ({
+      variables: { id: !user ? 1 : user.id }
+    })
+  }),
+  graphql(queries.addCodeMutation, {
+    options: ({ user_id, code }: { user_id: string, code: string }) => ({
+      variables: { user_id, code }
     })
   }),
   connect(mapStateToProps, {

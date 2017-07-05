@@ -3,7 +3,9 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { graphql, compose } from 'react-apollo';
 
+import { addUserMutation } from './../queries';
 import { signIn } from './../actions';
 import { Form, Input, Button } from './Styled';
 
@@ -18,7 +20,7 @@ const LoginContainer = styled.div`
 
 const LoginForm = Form.extend`
   width: 60%;
-  height: 80%;
+  padding: 2em;
   background-color: grey;
   display: flex;
   flex-direction: column;
@@ -29,6 +31,8 @@ const LoginForm = Form.extend`
 class Login extends Component {
   state = {
     username: '',
+    firstname: '',
+    surname: '',
     password: ''
   };
 
@@ -38,9 +42,11 @@ class Login extends Component {
   };
 
   handleSubmit = (e: Event) => {
-    const { username, password } = this.state;
+    const { username, password, firstname, surname } = this.state;
+    const { mutate, signIn } = this.props;
     e.preventDefault();
-    this.props.signIn({ username, password });
+    mutate({ variables: { firstname, surname, username, password } });
+    signIn({ username, firstname, surname });
   };
 
   render() {
@@ -51,19 +57,16 @@ class Login extends Component {
     return (
       <LoginContainer>
         <LoginForm>
-          <Input
-            id="username"
-            placeholder="username"
-            onChange={this.handleChange}
-            value={username}
-          />
-          <Input
-            id="password"
-            placeholder="Password"
-            type="password"
-            onChange={this.handleChange}
-            value={password}
-          />
+          {Object.keys(this.state).map(field => (
+            <Input
+              type={field === 'password' && 'password'}
+              key={field}
+              id={field}
+              placeholder={field}
+              onChange={this.handleChange}
+              value={this.state[field]}
+            />
+          ))}
           <Button onClick={this.handleSubmit}>
             Login
           </Button>
@@ -73,10 +76,25 @@ class Login extends Component {
   }
 }
 
-//Login.defaultProps = {};
-
 const mapStateToProps = ({ user }: { user: Object }) => ({
   user
 });
 
-export default connect(mapStateToProps, { signIn })(Login);
+export default compose(
+  graphql(addUserMutation, {
+    options: ({
+      username,
+      firstname,
+      surname,
+      password
+    }: {
+      username: string,
+      firstname: string,
+      surname: string,
+      password: string
+    }) => ({
+      variables: { username, firstname, surname, password }
+    })
+  }),
+  connect(mapStateToProps, { signIn })
+)(Login);

@@ -1,4 +1,5 @@
 import db from './../database/dbConnection.js';
+import bcrypt from 'bcryptjs';
 
 const resolvers = {
   Query: {
@@ -32,13 +33,24 @@ const resolvers = {
         .catch(err => err)
   },
   Mutation: {
-    addCode: (root, { code, id }) => {
+    addCode: (root, { code, id }) =>
       db
         .query(`INSERT INTO codebase (user_id, code) VALUES ($1, $2)`, [
           id,
           code
         ])
-        .catch(e => e);
+        .catch(e => e),
+    addUser: async (root, { username, firstname, surname, password }) => {
+      try {
+        const salt = await bcrypt.genSalt(10);
+        const saltedAndHashed = await bcrypt.hash(password, salt);
+        db.query(
+          `INSERT INTO users (username, firstname, surname, password) VALUES ($1, $2, $3, $4)`,
+          [username, firstname, surname, saltedAndHashed]
+        );
+      } catch (e) {
+        return e;
+      }
     }
   }
 };
