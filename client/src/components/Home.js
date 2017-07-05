@@ -35,12 +35,12 @@ class Home extends Component {
     return (
       <Container>
         {users &&
-          users.map(user => (
+          users.map((user: Object) => (
             <UserContainer key={user.id}>
               <Title>
                 {user.code.length > 0 && user.username}
               </Title>
-              <Grid key={user.id}>
+              <Grid>
                 {user.code.map(({ code, id }: { code: string, id: string }) => (
                   <CodeBlock key={id} language="javascript" style={atomOneDark}>
                     {code}
