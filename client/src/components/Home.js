@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { docco } from 'react-syntax-highlighter/dist/styles';
 import styled from 'styled-components';
 
 import { Container, flex } from './Styled';
@@ -9,7 +11,7 @@ const Grid = styled.div`
   width: 100%;
 `;
 
-const CodeBlock = styled.pre`
+const CodeBlock = styled(SyntaxHighlighter)`
   margin: 1em;
   padding: 0.5em;
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
@@ -30,7 +32,9 @@ class Home extends Component {
     return (
       <Container>
         <Grid row>
-          {codebase.map(code => <CodeBlock>{code}</CodeBlock>)}
+          {codebase.map(code => (
+            <CodeBlock language="javascript" style={docco}>{code}</CodeBlock>
+          ))}
         </Grid>
       </Container>
     );

@@ -8,7 +8,7 @@ const typeDefs = `
     firstname: String!
     surname: String!
     username: String!
-    code: [Codebase]
+    code: [Codebase]!
   }
 
   type Codebase {

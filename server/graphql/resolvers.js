@@ -11,7 +11,7 @@ const resolvers = {
     },
     user: (_, { id }) =>
       db
-        .query(`SELECT * FROM users, codebase WHERE user.id = $1`, id)
+        .query(`SELECT * FROM users, codebase WHERE users.id = $1`, id)
         .catch(err => err),
     findCode: (_, { id }) =>
       db
