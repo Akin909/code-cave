@@ -24,6 +24,12 @@ const typeDefs = `
     user(id: Int!): [User]
     findCode(id: Int!): [Codebase]
   }
+
+  type Mutation {
+    # A mutation to add a new snippet of code or a new user
+    addCode(code: String! user_id: Int): Codebase
+    addUser(username: String! firstname: String! surname: String!): User
+  }
 `;
 
 export const schema = makeExecutableSchema({ typeDefs, resolvers });

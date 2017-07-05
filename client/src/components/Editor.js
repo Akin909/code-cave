@@ -20,7 +20,7 @@ import 'brace/mode/java';
 import 'brace/mode/ruby';
 
 import * as queries from './../queries/';
-import { Title, RoundButton, Container } from './Styled';
+import { Title, RoundButton, Button, Container } from './Styled';
 import {
   saveCode,
   changeTheme,
@@ -71,7 +71,7 @@ class Editor extends Component {
   isUserLoggedIn = () => {
     const { user } = this.props;
     if (user.signedIn) {
-      console.log('user', user);
+      //console.log('user', user);
       //if (users) {
       //const currentUser = users.find(
       //user => user.username === user.signedIn.username
@@ -93,6 +93,9 @@ class Editor extends Component {
 
   handleChange = (code: string) => {
     this.setState({ code });
+  };
+
+  saveCurrentCode = (code: string) => {
     this.props.saveCode(code);
   };
 
@@ -117,6 +120,7 @@ class Editor extends Component {
           mode={language}
           theme={theme}
         />
+        <Button onClick={this.saveCurrentCode}>Save Code</Button>
       </EditorContainer>
     );
   }

@@ -23,3 +23,11 @@ export const findUserCode = gql`
     }
   }
 `;
+
+export const addCodeMutation = gql`
+  mutation addCodeMutation($id: Int! $code:String!){
+  addCode(id: $id code: $code)
+    id
+    code
+  }
+`;

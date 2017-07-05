@@ -30,6 +30,16 @@ const resolvers = {
           id
         )
         .catch(err => err)
+  },
+  Mutation: {
+    addCode: (root, { code, id }) => {
+      db
+        .query(`INSERT INTO codebase (user_id, code) VALUES ($1, $2)`, [
+          id,
+          code
+        ])
+        .catch(e => e);
+    }
   }
 };
 
