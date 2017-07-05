@@ -12,6 +12,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Editor from './components/Editor';
 import Nav from './components/Nav';
 import Login from './components/Login';
+import Home from './components/Home';
 
 import './reset.js';
 import rootReducer from './reducers';
@@ -39,7 +40,8 @@ class App extends Component {
           <AppContainer>
             <Nav />
             <Route path="/edit" component={Editor} />
-            <Route path="/" component={Login} />
+            <Route path="/login" component={Login} />
+            <Route exact path="/" component={Home} />
           </AppContainer>
         </Router>
       </ApolloProvider>

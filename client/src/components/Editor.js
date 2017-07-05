@@ -20,7 +20,7 @@ import 'brace/mode/java';
 import 'brace/mode/ruby';
 
 import * as queries from './../queries/';
-import { Title, RoundButton } from './Styled';
+import { Title, RoundButton, Container } from './Styled';
 import {
   saveCode,
   changeTheme,
@@ -36,14 +36,9 @@ const MenuButton = RoundButton.extend`
   position: absolute;
 `;
 
-const EditorContainer = styled.div`
+const EditorContainer = Container.extend`
   position: relative;
-  width: 100%;
   height: 100%;
-  background-color: cream;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 `;
 
 const CodeEditor = styled(AceEditor)`
@@ -141,6 +136,11 @@ const mapStateToProps = ({
 
 export default compose(
   graphql(queries.usersQuery),
+  graphql(queries.findUserCode, {
+    options: (props: Object) => ({
+      variables: { id: 1 /*props.user.id*/ }
+    })
+  }),
   connect(mapStateToProps, {
     saveCode,
     changeFontSize,

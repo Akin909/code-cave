@@ -3,13 +3,15 @@ import db from './../database/dbConnection.js';
 const resolvers = {
   Query: {
     users: () => {
-      return db.query(`SELECT * FROM users`).catch(err => err);
-    },
-    user: (_, { id }) =>
-      db
+      return db
         .query(
           `SELECT * FROM users, codebase WHERE users.id = codebase.user_id`
         )
+        .catch(err => err);
+    },
+    user: (_, { id }) =>
+      db
+        .query(`SELECT * FROM users, codebase WHERE user.id = $1`, id)
         .catch(err => err),
     findCode: (_, { id }) =>
       db

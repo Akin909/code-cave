@@ -22,7 +22,7 @@ const typeDefs = `
   type Query {
     users: [User]
     user(id: Int!): [User]
-    findCode(id: Int!): User
+    findCode(id: Int!): [User]
   }
 `;
 

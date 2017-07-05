@@ -35,8 +35,9 @@ class Nav extends Component {
       <NavContainer>
         <LogoText>Code-Cave</LogoText>
         <Links>
+          <StyledLink to="/">Home</StyledLink>
           <StyledLink to="/edit">Editor</StyledLink>
-          <StyledLink to="/">Login</StyledLink>
+          <StyledLink to="/login">Login</StyledLink>
         </Links>
       </NavContainer>
     );
