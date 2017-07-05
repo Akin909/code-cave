@@ -21,6 +21,7 @@ const AppContainer = styled.div`
   width: 100%;
   height: 100vh;
   font-family: Helvetica;
+  background-color: black;
 `;
 
 export const networkInterface = createNetworkInterface({

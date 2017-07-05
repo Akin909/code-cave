@@ -19,7 +19,6 @@ export const StyledLink = styled(Link)`
   margin: 0 1em;
   font-size: 1.2em;
   text-decoration: none;
-
   &:hover {
   text-decoration: underline;
   font-weight: 800;

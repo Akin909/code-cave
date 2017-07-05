@@ -4,10 +4,15 @@ import styled from 'styled-components';
 import { StyledLink } from './Styled';
 import lambda from './../assets/lambda.png';
 
+const DarkLink = StyledLink.extend`
+  background-color: #242424;
+  width: 100%;
+`;
+// Idea for dark nav #383838;
 const NavContainer = styled.header`
   width: 100%;
   height: 3em;
-  background-color: skyblue;
+  background-color: #172232;
   display: flex;
   align-items: center;
   justify-content: space-between;
