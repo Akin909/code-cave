@@ -6,7 +6,7 @@ import { atomOneDark } from 'react-syntax-highlighter/dist/styles';
 import styled from 'styled-components';
 
 import { usersQuery } from './../queries';
-import { Container, flex } from './Styled';
+import { Container, Title, flex } from './Styled';
 
 const Grid = styled.div`
   ${flex};
@@ -24,23 +24,31 @@ const CodeBlock = styled(SyntaxHighlighter)`
   text-align: center;
 `;
 
+const UserContainer = styled.div`
+  ${flex};
+  width: 100%;
+`;
+
 class Home extends Component {
   render() {
     const { data: { users } } = this.props;
-    let codebase;
-    if (users) {
-      codebase = users.reduce((acc: Array<any>, user: Object) => user.code, []);
-    }
     return (
       <Container>
-        <Grid row>
-          {codebase &&
-            codebase.map(({ code, id }: { code: string, id: string }) => (
-              <CodeBlock key={id} language="javascript" style={atomOneDark}>
-                {code}
-              </CodeBlock>
-            ))}
-        </Grid>
+        {users &&
+          users.map(user => (
+            <UserContainer key={user.id}>
+              <Title>
+                {user.code.length > 0 && user.username}
+              </Title>
+              <Grid key={user.id}>
+                {user.code.map(({ code, id }: { code: string, id: string }) => (
+                  <CodeBlock key={id} language="javascript" style={atomOneDark}>
+                    {code}
+                  </CodeBlock>
+                ))}
+              </Grid>
+            </UserContainer>
+          ))}
       </Container>
     );
   }

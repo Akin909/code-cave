@@ -7,7 +7,7 @@ import { graphql, compose } from 'react-apollo';
 
 import { addUserMutation } from './../queries';
 import { signIn } from './../actions';
-import { Form, Input, Button } from './Styled';
+import { Form, Title, Input, Button } from './Styled';
 
 const LoginContainer = styled.div`
   width: 100%;
@@ -57,6 +57,7 @@ class Login extends Component {
     return (
       <LoginContainer>
         <LoginForm>
+          <Title>Signup Form</Title>
           {Object.keys(this.state).map(field => (
             <Input
               type={field === 'password' && 'password'}
