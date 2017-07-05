@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-import { StyledLink } from './../Styled';
+import { StyledLink } from './Styled';
 
 const NavContainer = styled.header`
   width: 100%;

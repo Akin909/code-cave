@@ -5,6 +5,7 @@ export const flex = css`
   display:flex;
   flex-direction: ${props => (props.row ? 'row' : 'column')};
   align-items: center;
+  justify-content: center;
 `;
 
 export const Container = styled.div`

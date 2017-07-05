@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-import { signIn } from './../../actions';
-import { Form, Input, Button } from './../Styled';
+import { signIn } from './../actions';
+import { Form, Input, Button } from './Styled';
 
 const LoginContainer = styled.div`
   width: 100%;

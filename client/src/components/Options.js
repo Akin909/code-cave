@@ -2,7 +2,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { RoundButton, Input, Form, Label } from './../Styled';
+import { RoundButton, Input, Form, Label } from './Styled';
 import Select from './Select';
 
 const MenuButton = RoundButton.extend`

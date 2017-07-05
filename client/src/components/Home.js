@@ -1,8 +1,11 @@
+//@flow
 import React, { Component } from 'react';
+import { graphql } from 'react-apollo';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { atomOneDark } from 'react-syntax-highlighter/dist/styles';
 import styled from 'styled-components';
 
+import { usersQuery } from './../queries';
 import { Container, flex } from './Styled';
 
 const Grid = styled.div`
@@ -21,26 +24,26 @@ const CodeBlock = styled(SyntaxHighlighter)`
   text-align: center;
 `;
 
-const codebase = [
-  'function(){ hello }',
-  'Array.from({ length: 2 }, ()=>{})',
-  '() => fn => (...args) => args.reduce(arg => fn(arg),fn(...args))'
-];
-
 class Home extends Component {
   render() {
+    const { data: { users } } = this.props;
+    let codebase;
+    if (users) {
+      codebase = users.reduce((acc: Array<any>, user: Object) => user.code, []);
+    }
     return (
       <Container>
         <Grid row>
-          {codebase.map(code => (
-            <CodeBlock language="javascript" style={atomOneDark}>
-              {code}
-            </CodeBlock>
-          ))}
+          {codebase &&
+            codebase.map(({ code, id }: { code: string, id: string }) => (
+              <CodeBlock key={id} language="javascript" style={atomOneDark}>
+                {code}
+              </CodeBlock>
+            ))}
         </Grid>
       </Container>
     );
   }
 }
 
-export default Home;
+export default graphql(usersQuery)(Home);

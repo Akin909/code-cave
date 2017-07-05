@@ -7,7 +7,10 @@ export const usersQuery = gql`
       firstname
       surname
       username
-      code
+      code {
+        code
+        id
+      }
     }
   }
 `;

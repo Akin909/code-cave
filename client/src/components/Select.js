@@ -1,8 +1,8 @@
 //@flow
 import React from 'react';
 
-import { capitaliseAndSpace } from './../../lib/utils';
-import { Select as StyledSelect, Option } from './../Styled';
+import { capitaliseAndSpace } from './../lib/utils';
+import { Select as StyledSelect, Option } from './Styled';
 
 const Select = ({
   array,

@@ -71,14 +71,13 @@ class Editor extends Component {
   isUserLoggedIn = () => {
     const { user } = this.props;
     if (user.signedIn) {
-      const { data: { users } } = this.props;
-      console.log('user', users);
-      if (users) {
-        const currentUser = users.find(
-          user => user.username === user.signedIn.username
-        );
-        console.log('currentUser', currentUser);
-      }
+      console.log('user', user);
+      //if (users) {
+      //const currentUser = users.find(
+      //user => user.username === user.signedIn.username
+      //);
+      //console.log('currentUser', currentUser);
+      //}
     }
   };
 
@@ -135,12 +134,11 @@ const mapStateToProps = ({
 });
 
 export default compose(
-  graphql(queries.usersQuery),
-  //graphql(queries.findUserCode, {
-  //options: (props: Object) => ({
-  //variables: { id: 1 [>props.user.id<] }
-  //})
-  //}),
+  graphql(queries.findUserCode, {
+    options: (props: Object) => ({
+      variables: { id: !props.user ? 1 : props.user.id }
+    })
+  }),
   connect(mapStateToProps, {
     saveCode,
     changeFontSize,
