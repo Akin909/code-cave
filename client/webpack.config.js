@@ -14,7 +14,9 @@ module.exports = {
   devtool: 'cheap-module-source-map',
 
   devServer: {
-    contentBase: __dirname + '/src'
+    contentBase: __dirname + '/src',
+    compress: true,
+    historyApiFallback: true //Stops react router roots from crashing on refresh
   },
 
   module: {

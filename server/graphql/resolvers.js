@@ -44,12 +44,30 @@ const resolvers = {
       try {
         const salt = await bcrypt.genSalt(10);
         const saltedAndHashed = await bcrypt.hash(password, salt);
-        db.query(
-          `INSERT INTO users (username, firstname, surname, password) VALUES ($1, $2, $3, $4)`,
-          [username, firstname, surname, saltedAndHashed]
+        const duplicate = await db.query(
+          `SELECT * FROM users WHERE ($1 = users.username) OR (users.firstname = $2 AND users.surname = $3)`,
+          [username, firstname, surname]
         );
+        if (!duplicate.length) {
+          const [
+            res
+          ] = await db.query(
+            `INSERT INTO users (username, firstname, surname, password) VALUES ($1, $2, $3, $4) RETURNING ID`,
+            [username, firstname, surname, saltedAndHashed]
+          );
+          return {
+            id: res.id,
+            username,
+            firstname,
+            surname
+          };
+        } else {
+          throw new Error('There is a duplicate');
+        }
       } catch (e) {
-        return e;
+        return {
+          error: e
+        };
       }
     }
   }

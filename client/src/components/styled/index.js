@@ -33,7 +33,7 @@ export const Title = styled.h1`
 export const Input = styled.input`
   border: none;
   border-radius: 4px;
-  height: 3em;
+  height: 10%;
   width: 80%;
   margin: 0.5em;
   padding: 0.3em;

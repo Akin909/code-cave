@@ -75,20 +75,20 @@ class Editor extends Component {
     ]
   };
 
-  componentWillReceiveProps() {
+  componentDidMount() {
     this.isUserLoggedIn();
   }
 
   isUserLoggedIn = () => {
-    const { user } = this.props;
-    if (user.signedIn) {
-      //console.log('user', user);
-      //if (users) {
-      //const currentUser = users.find(
-      //user => user.username === user.signedIn.username
-      //);
-      //console.log('currentUser', currentUser);
-      //}
+    const { user: currentUser, data: { users: allUsers } } = this.props;
+    if (currentUser.signedIn) {
+      if (allUsers) {
+        console.log('allUsers', allUsers);
+        const loggedIn = allUsers.find(
+          user => user.id === currentUser.signedIn.id
+        );
+        console.log('currentUser', loggedIn);
+      }
     }
   };
 
@@ -161,11 +161,12 @@ const mapStateToProps = ({
 });
 
 export default compose(
-  graphql(queries.findUserCode, {
-    options: ({ user }: { user: Object }) => ({
-      variables: { id: !user ? 1 : user.id }
-    })
-  }),
+  graphql(queries.usersQuery),
+  //graphql(queries.findUserCode, {
+  //options: ({ user }: { user: Object }) => ({
+  //variables: { id: !user ? 1 : user.id }
+  //})
+  //}),
   graphql(queries.addCodeMutation, {
     options: ({ user_id, code }: { user_id: string, code: string }) => ({
       variables: { user_id, code }

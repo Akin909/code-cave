@@ -42,19 +42,19 @@ class Login extends Component {
     this.setState({ [id]: value });
   };
 
-  handleSubmit = (e: Event) => {
+  handleSubmit = async (e: Event) => {
     const { username, password, firstname, surname } = this.state;
     const { mutate, signIn } = this.props;
     e.preventDefault();
-    mutate({ variables: { firstname, surname, username, password } });
-    signIn({ username, firstname, surname });
+    const { data: { addUser: addedUser } } = await mutate({
+      variables: { firstname, surname, username, password }
+    });
+    signIn(addedUser);
+    this.props.history.push('/edit');
   };
 
   render() {
     const { username, password } = this.state;
-    if (this.props.user.signedIn) {
-      return <Redirect to="/edit" />;
-    }
     return (
       <LoginContainer>
         <LoginForm>

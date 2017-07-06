@@ -35,11 +35,11 @@ export const addCodeMutation = gql`
 
 export const addUserMutation = gql`
   mutation addUserMutation($firstname: String! $surname: String! $password: String! $username: String!){
-    addUser(firstname: $firstname surname: $surname username: $username password: $password){
+    addUser(firstname: $firstname surname: $surname username: $username password: $password) {
       firstname
       surname
       username
-      password
+      id
     }
   }
 `;

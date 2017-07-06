@@ -50,7 +50,7 @@ class Nav extends Component {
       <NavContainer>
         <LogoContainer>
           <LogoText>CodeCave</LogoText>
-          <LogoIcon src={lambda} />
+          {/*<LogoIcon src={lambda} /> */}
         </LogoContainer>
         <Links>
           <StyledLink to="/">Home</StyledLink>

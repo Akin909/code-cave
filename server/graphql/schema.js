@@ -9,7 +9,7 @@ const typeDefs = `
     surname: String!
     username: String!
     password: String
-    code: [Codebase]!
+    code: [Codebase]
   }
 
   type Codebase {
