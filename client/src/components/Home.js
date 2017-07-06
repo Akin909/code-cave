@@ -24,7 +24,6 @@ const CodeBlock = styled(SyntaxHighlighter)`
   background-color: whitesmoke;
   width: 40%;
   height: 15em;
-  text-align: center;
 `;
 
 const UserContainer = styled.div`

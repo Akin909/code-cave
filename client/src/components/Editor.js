@@ -33,6 +33,8 @@ import Options from './Options';
 const SaveButton = Button.extend`
   font-size: 1.3em;
   margin: 0.5em;
+  min-width: 8em;
+  width: auto;
 `;
 
 const MenuButton = RoundButton.extend`
@@ -49,7 +51,6 @@ const EditorViews = styled.div`
   width: 100%;
   height: 100%;
   ${flex}
-  align-items: flex-start;
 `;
 
 const CodeEditor = styled(AceEditor)`
@@ -75,7 +76,8 @@ class Editor extends Component {
     ]
   };
 
-  componentDidMount() {
+  componentWillMount() {
+    //this.props.data.refetch();
     this.isUserLoggedIn();
   }
 
@@ -84,9 +86,15 @@ class Editor extends Component {
     if (currentUser.signedIn) {
       if (allUsers) {
         console.log('allUsers', allUsers);
-        const loggedIn = allUsers.find(
-          user => user.id === currentUser.signedIn.id
-        );
+        const loggedIn = allUsers.find(user => {
+          console.log(
+            'user id',
+            user.id,
+            'currentUser',
+            currentUser.signedIn.id
+          );
+          return user.id === currentUser.signedIn.id;
+        });
         console.log('currentUser', loggedIn);
       }
     }
@@ -108,7 +116,7 @@ class Editor extends Component {
 
   saveCurrentCode = () => {
     const { code } = this.state;
-    const { user: { signedIn }, mutate } = this.props;
+    const { user: { signedIn }, mutate, history } = this.props;
     this.props.saveCode(code);
     if (signedIn) {
       mutate({
@@ -117,32 +125,36 @@ class Editor extends Component {
           user_id: signedIn.id
         }
       });
+    } else {
+      history.push('/login');
     }
   };
 
   render() {
-    //console.log('this.props', this.props);
+    console.log('props', this.props);
     const props = this.generateProps();
     const { theme, language } = this.props.editorConfig;
     return (
-      <EditorContainer>
+      <EditorContainer row>
         <Options handleMenuClick={this.handleMenuClick} {...props} />
         <Title>Editor</Title>
         <MenuButton
           visible={this.state.visible}
           onClick={this.handleMenuClick}
         />
-        <EditorViews row>
+        <EditorViews>
           <CodeEditor
             enableBasicAutoCompletion={true}
-            width={'50%'}
-            height={'80%'}
+            width={'70%'}
+            height={'60%'}
             value={this.state.code}
             onChange={this.handleChange}
             mode={language}
             theme={theme}
           />
-          <SaveButton onClick={this.saveCurrentCode}>Save</SaveButton>
+          <SaveButton onClick={this.saveCurrentCode}>
+            {this.props.user.signedIn ? 'Save' : 'Sign in to Save'}
+          </SaveButton>
         </EditorViews>
       </EditorContainer>
     );
@@ -162,11 +174,13 @@ const mapStateToProps = ({
 
 export default compose(
   graphql(queries.usersQuery),
-  //graphql(queries.findUserCode, {
-  //options: ({ user }: { user: Object }) => ({
-  //variables: { id: !user ? 1 : user.id }
-  //})
-  //}),
+  //TODO compose does not work with two queries in this fashion
+  graphql(queries.findUserCode, {
+    skip: (props: Object) => !props.user || !props.user.signedIn,
+    options: ({ user }: { user: Object }) => ({
+      variables: { id: user.signedIn.id }
+    })
+  }),
   graphql(queries.addCodeMutation, {
     options: ({ user_id, code }: { user_id: string, code: string }) => ({
       variables: { user_id, code }

@@ -1,11 +1,12 @@
 //@flow
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import update from 'immutability-helper';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { graphql, compose } from 'react-apollo';
 
-import { addUserMutation } from './../queries';
+import { addUserMutation, usersQuery } from './../queries';
 import { signIn } from './../actions';
 import { Form, Title, Input, Button } from './Styled';
 
@@ -44,13 +45,21 @@ class Login extends Component {
 
   handleSubmit = async (e: Event) => {
     const { username, password, firstname, surname } = this.state;
-    const { mutate, signIn } = this.props;
+    const { mutate, signIn, history } = this.props;
     e.preventDefault();
+    //Insert new user info into the DB and await the response which is the user
+    //added
     const { data: { addUser: addedUser } } = await mutate({
-      variables: { firstname, surname, username, password }
+      variables: { firstname, surname, username, password },
+      update: (store: Object, { data: { addUser } }: { data: Object }) => {
+        const data = store.readQuery({ query: usersQuery });
+        const newData = update(data.users, { $push: [addUser] });
+        store.writeQuery({ query: usersQuery, newData });
+      }
     });
+    //Redirect user to editor and add the signed in user to redux store
     signIn(addedUser);
-    this.props.history.push('/edit');
+    history.push('/edit');
   };
 
   render() {

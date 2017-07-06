@@ -33,13 +33,26 @@ const resolvers = {
         .catch(err => err)
   },
   Mutation: {
-    addCode: (root, { code, id }) =>
-      db
-        .query(`INSERT INTO codebase (user_id, code) VALUES ($1, $2)`, [
-          id,
-          code
-        ])
-        .catch(e => e),
+    addCode: async (root, { code, id }) => {
+      try {
+        const [
+          res
+        ] = await db.query(
+          `INSERT INTO codebase (user_id, code) VALUES ($1, $2)`,
+          [id, code]
+        );
+        console.log('user_id', id);
+        return {
+          code,
+          id: res.id,
+          user_id: id
+        };
+      } catch (err) {
+        return {
+          err
+        };
+      }
+    },
     addUser: async (root, { username, firstname, surname, password }) => {
       try {
         const salt = await bcrypt.genSalt(10);
@@ -65,9 +78,7 @@ const resolvers = {
           throw new Error('There is a duplicate');
         }
       } catch (e) {
-        return {
-          error: e
-        };
+        return e;
       }
     }
   }

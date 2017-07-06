@@ -18,6 +18,7 @@ const typeDefs = `
     code: String!
   }
 
+
   # the schema allows the following queries
 
   type Query {
@@ -32,5 +33,9 @@ const typeDefs = `
     addUser(username: String! firstname: String! surname: String! password: String!): User
   }
 `;
+//TODO implement a custom payload for mutation responses for error handling
+//type addUserPayload {
+//user: User
+//}
 
 export const schema = makeExecutableSchema({ typeDefs, resolvers });
