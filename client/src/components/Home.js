@@ -8,6 +8,10 @@ import styled from 'styled-components';
 import { usersQuery } from './../queries';
 import { Container, Title, flex } from './Styled';
 
+const UserTitle = Title.extend`
+  color: white;
+`;
+
 const Grid = styled.div`
   ${flex};
   flex-wrap: wrap;
@@ -19,7 +23,7 @@ const CodeBlock = styled(SyntaxHighlighter)`
   padding: 0.5em;
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   background-color: whitesmoke;
-  width: 45%;
+  width: 40%;
   height: 15em;
   text-align: center;
 `;
@@ -27,22 +31,33 @@ const CodeBlock = styled(SyntaxHighlighter)`
 const UserContainer = styled.div`
   ${flex};
   width: 100%;
+  height: 100%;
 `;
 
 class Home extends Component {
   render() {
     const { data: { users } } = this.props;
+    if (users) {
+      const userCode = users
+        .filter(user => user.code.length)
+        .map(user => user.code);
+    }
     return (
       <Container>
         {users &&
-          users.map((user: Object) => (
+          users.filter(user => user.code.length).map((user: Object) => (
             <UserContainer key={user.id}>
-              <Title>
-                {user.code.length > 0 && user.username}
-              </Title>
-              <Grid>
+              <UserTitle>
+                {user.username}
+              </UserTitle>
+              <Grid row>
                 {user.code.map(({ code, id }: { code: string, id: string }) => (
-                  <CodeBlock key={id} language="javascript" style={atomOneDark}>
+                  <CodeBlock
+                    showLineNumbers
+                    key={id}
+                    language="javascript"
+                    style={atomOneDark}
+                  >
                     {code}
                   </CodeBlock>
                 ))}

@@ -18,7 +18,7 @@ import './reset.js';
 import rootReducer from './reducers';
 
 const AppContainer = styled.div`
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   font-family: Helvetica;
   background-color: black;

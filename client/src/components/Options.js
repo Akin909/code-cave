@@ -20,7 +20,7 @@ const OptionsDrawer = styled.div`
   left: 0;
   top: 0;
   width: 20vw;
-  height: 100vh;
+  height: 100%;
   background-color: grey;
   transition: all 0.5s ease-in;
   transform: ${props => (props.visible ? 'translateX(0%)' : 'translateX(-100%)')};
@@ -49,8 +49,8 @@ const Options = ({
   visible: boolean,
   handleMenuClick: (event: Event) => void,
   changeFontSize: (fontSize: string) => Object,
-  changeTheme: (theme: string) => Object,
-  changeLanguage: (language: string) => Object
+  changeTheme: (theme: Object) => Object,
+  changeLanguage: (language: Object) => Object
 }) => {
   const { fontSize, theme, language } = editorConfig;
   return (

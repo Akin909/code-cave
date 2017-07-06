@@ -10,7 +10,7 @@ export const flex = css`
 
 export const Container = styled.div`
   width: 100%;
-  height: 90%;
+  height: 100%;
   ${flex}
 `;
 

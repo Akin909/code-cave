@@ -38,6 +38,7 @@ const MenuButton = RoundButton.extend`
 
 const EditorContainer = Container.extend`
   position: relative;
+
 `;
 
 const CodeEditor = styled(AceEditor)`
