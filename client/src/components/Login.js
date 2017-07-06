@@ -20,6 +20,7 @@ const LoginContainer = styled.div`
 
 const LoginForm = Form.extend`
   width: 60%;
+  height: 80%;
   padding: 2em;
   background-color: grey;
   display: flex;

@@ -20,7 +20,7 @@ import 'brace/mode/java';
 import 'brace/mode/ruby';
 
 import * as queries from './../queries/';
-import { Title, RoundButton, Button, Container } from './Styled';
+import { Title, RoundButton, Button, Container, flex } from './Styled';
 import {
   saveCode,
   changeTheme,
@@ -30,6 +30,11 @@ import {
 
 import Options from './Options';
 
+const SaveButton = Button.extend`
+  font-size: 1.3em;
+  margin: 0.5em;
+`;
+
 const MenuButton = RoundButton.extend`
   top:  1em;
   left: 1em;
@@ -38,12 +43,18 @@ const MenuButton = RoundButton.extend`
 
 const EditorContainer = Container.extend`
   position: relative;
+`;
 
+const EditorViews = styled.div`
+  width: 100%;
+  height: 100%;
+  ${flex}
+  align-items: flex-start;
 `;
 
 const CodeEditor = styled(AceEditor)`
   width: 80%;
-  height: 50%;
+  height: 100%;
   box-shadow: -1px 2px 0 rgba(0, 0, 0, 0.5);
   margin: 0.2em;
 `;
@@ -110,7 +121,7 @@ class Editor extends Component {
   };
 
   render() {
-    console.log('this.props', this.props);
+    //console.log('this.props', this.props);
     const props = this.generateProps();
     const { theme, language } = this.props.editorConfig;
     return (
@@ -121,16 +132,18 @@ class Editor extends Component {
           visible={this.state.visible}
           onClick={this.handleMenuClick}
         />
-        <CodeEditor
-          enableBasicAutoCompletion={true}
-          width={'50%'}
-          height={'80%'}
-          value={this.state.code}
-          onChange={this.handleChange}
-          mode={language}
-          theme={theme}
-        />
-        <Button onClick={this.saveCurrentCode}>Save Code</Button>
+        <EditorViews row>
+          <CodeEditor
+            enableBasicAutoCompletion={true}
+            width={'50%'}
+            height={'80%'}
+            value={this.state.code}
+            onChange={this.handleChange}
+            mode={language}
+            theme={theme}
+          />
+          <SaveButton onClick={this.saveCurrentCode}>Save</SaveButton>
+        </EditorViews>
       </EditorContainer>
     );
   }

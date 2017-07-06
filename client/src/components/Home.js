@@ -12,10 +12,9 @@ const UserTitle = Title.extend`
   color: white;
 `;
 
-const Grid = styled.div`
-  ${flex};
+const Grid = Container.extend`
+  align-items: flex-start;
   flex-wrap: wrap;
-  width: 100%;
 `;
 
 const CodeBlock = styled(SyntaxHighlighter)`
