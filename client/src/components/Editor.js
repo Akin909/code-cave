@@ -76,23 +76,17 @@ class Editor extends Component {
     ]
   };
 
-  componentWillMount() {
-    //this.props.data.refetch();
+  componentDidMount() {
     this.isUserLoggedIn();
   }
 
   isUserLoggedIn = () => {
     const { user: currentUser, data: { users: allUsers } } = this.props;
     if (currentUser.signedIn) {
+      //TODO bugfix query does not exist on re-render from login
+      console.log('allUsers', allUsers);
       if (allUsers) {
-        console.log('allUsers', allUsers);
         const loggedIn = allUsers.find(user => {
-          console.log(
-            'user id',
-            user.id,
-            'currentUser',
-            currentUser.signedIn.id
-          );
           return user.id === currentUser.signedIn.id;
         });
         console.log('currentUser', loggedIn);

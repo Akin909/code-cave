@@ -1,7 +1,6 @@
 //@flow
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import update from 'immutability-helper';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { graphql, compose } from 'react-apollo';
@@ -50,12 +49,7 @@ class Login extends Component {
     //Insert new user info into the DB and await the response which is the user
     //added
     const { data: { addUser: addedUser } } = await mutate({
-      variables: { firstname, surname, username, password },
-      update: (store: Object, { data: { addUser } }: { data: Object }) => {
-        const data = store.readQuery({ query: usersQuery });
-        const newData = update(data.users, { $push: [addUser] });
-        store.writeQuery({ query: usersQuery, newData });
-      }
+      variables: { firstname, surname, username, password }
     });
     //Redirect user to editor and add the signed in user to redux store
     signIn(addedUser);
@@ -104,7 +98,12 @@ export default compose(
       surname: string,
       password: string
     }) => ({
-      variables: { username, firstname, surname, password }
+      variables: { username, firstname, surname, password },
+      update: (store: Object, { data: { addUser } }: { data: Object }) => {
+        const data = store.readQuery({ query: usersQuery });
+        data.users.push(addUser); //Needs to be a mutation
+        store.writeQuery({ query: usersQuery, data });
+      }
     })
   }),
   connect(mapStateToProps, { signIn })
