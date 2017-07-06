@@ -1,4 +1,5 @@
 import db from './../database/dbConnection.js';
+import validator from 'validator';
 import bcrypt from 'bcryptjs';
 
 const resolvers = {
@@ -41,7 +42,6 @@ const resolvers = {
           `INSERT INTO codebase (user_id, code) VALUES ($1, $2)`,
           [id, code]
         );
-        console.log('user_id', id);
         return {
           code,
           id: res.id,
@@ -53,7 +53,20 @@ const resolvers = {
         };
       }
     },
-    addUser: async (root, { username, firstname, surname, password }) => {
+    addUser: async (root, input) => {
+      const { username, firstname, surname, password } = input;
+      const errors = Object.values(input)
+        .filter(field => {
+          //FIXME
+          if (validator.isEmpty(field)) {
+            return { key: field, message: `${field} is empty` };
+          } else if (!validator.isLength(field, { max: 20 })) {
+            return { key: field, message: `${field} cannot be longer than 20` };
+          }
+          return null;
+        })
+        .filter(e => e);
+      if (errors.length) throw new Error('Validation error');
       try {
         const salt = await bcrypt.genSalt(10);
         const saltedAndHashed = await bcrypt.hash(password, salt);
