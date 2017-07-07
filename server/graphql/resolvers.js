@@ -53,13 +53,17 @@ const resolvers = {
         };
       }
     },
-    addUser: async (root, input) => {
-      const { username, firstname, surname, password } = input;
+    addUser: async (root, { input }) => {
+      const { username, email, password } = input;
       const errors = Object.values(input)
         .filter(field => {
           //FIXME
           if (validator.isEmpty(field)) {
             return { key: field, message: `${field} is empty` };
+          } else if (field === 'email') {
+            if (!validator.isEmail(field)) {
+              return { key: field, message: `Please submit a valid email` };
+            }
           } else if (!validator.isLength(field, { max: 20 })) {
             return { key: field, message: `${field} cannot be longer than 20` };
           }
@@ -71,21 +75,20 @@ const resolvers = {
         const salt = await bcrypt.genSalt(10);
         const saltedAndHashed = await bcrypt.hash(password, salt);
         const duplicate = await db.query(
-          `SELECT * FROM users WHERE ($1 = users.username) OR (users.firstname = $2 AND users.surname = $3)`,
-          [username, firstname, surname]
+          `SELECT * FROM users WHERE ($1 = users.username) OR (users.email = $2)`,
+          [username, email]
         );
         if (!duplicate.length) {
           const [
             res
           ] = await db.query(
-            `INSERT INTO users (username, firstname, surname, password) VALUES ($1, $2, $3, $4) RETURNING ID`,
-            [username, firstname, surname, saltedAndHashed]
+            `INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING ID`,
+            [username, email, saltedAndHashed]
           );
           return {
             id: res.id,
             username,
-            firstname,
-            surname
+            email
           };
         } else {
           throw new Error('There is a duplicate');

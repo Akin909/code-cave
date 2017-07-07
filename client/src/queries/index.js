@@ -4,8 +4,7 @@ export const usersQuery = gql`
   query Users {
     users {
       id
-      firstname
-      surname
+      email
       username
       code {
         code
@@ -34,12 +33,11 @@ export const addCodeMutation = gql`
 `;
 
 export const addUserMutation = gql`
-  mutation addUserMutation($firstname: String! $surname: String! $password: String! $username: String!){
-    addUser(firstname: $firstname surname: $surname username: $username password: $password) {
-      firstname
-      surname
+  mutation addUserMutation($input: AddUserInput!){
+    addUser(input: $input) {
       username
-      id
+      email
+      password
     }
   }
 `;

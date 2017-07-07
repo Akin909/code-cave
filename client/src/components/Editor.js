@@ -77,21 +77,23 @@ class Editor extends Component {
   };
 
   componentDidUpdate() {
-    console.log('ran');
     this.isUserLoggedIn();
   }
 
   isUserLoggedIn = () => {
+    console.log('users', this.props.data);
     const { user: currentUser, data: { users: allUsers } } = this.props;
     if (currentUser.signedIn) {
-      //TODO bugfix query does not exist on re-render from login
       if (allUsers) {
         const loggedIn = allUsers.find(user => {
           return user.id === currentUser.signedIn.id;
         });
-        console.log('currentUser', loggedIn);
-        if (loggedIn.code.length) {
-          this.setState({ code: loggedIn.code[loggedIn.code.length - 1] });
+        if (loggedIn.code) {
+          const { code: arrayOfCode } = loggedIn;
+          //console.log('currentUser', loggedIn);
+          if (arrayOfCode && arrayOfCode.length) {
+            this.setState({ code: arrayOfCode[arrayOfCode.length - 1] });
+          }
         }
       }
     }
@@ -111,12 +113,14 @@ class Editor extends Component {
     this.setState({ code });
   };
 
-  saveCurrentCode = () => {
+  saveCurrentCode = async () => {
+    console.log('Save current code');
     const { code } = this.state;
     const { user: { signedIn }, mutate, history } = this.props;
     this.props.saveCode(code);
     if (signedIn) {
-      mutate({
+      console.log('saving', signedIn.id);
+      const received = await mutate({
         variables: {
           code,
           user_id: signedIn.id

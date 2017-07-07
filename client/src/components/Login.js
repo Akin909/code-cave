@@ -7,7 +7,7 @@ import { graphql, compose } from 'react-apollo';
 
 import { addUserMutation, usersQuery } from './../queries';
 import { signIn } from './../actions';
-import { Form, Title, Input, Button } from './Styled';
+import { Form, StyledLink, Title, Input, Button } from './Styled';
 
 const LoginContainer = styled.div`
   width: 100%;
@@ -29,12 +29,24 @@ const LoginForm = Form.extend`
   justify-content: center;
 `;
 
+const SignInText = styled.h2`
+  text-decoration: underline;
+  font-weight: 800;
+  font-size: 1.2em;
+`;
+
+const Error = Title.extend`
+  
+`;
+
 class Login extends Component {
   state = {
-    username: '',
-    firstname: '',
-    surname: '',
-    password: ''
+    input: {
+      username: '',
+      email: '',
+      password: ''
+    },
+    returningUser: false
   };
 
   handleChange = (e: { target: { id: string, value: string } }) => {
@@ -43,38 +55,51 @@ class Login extends Component {
   };
 
   handleSubmit = async (e: Event) => {
-    const { username, password, firstname, surname } = this.state;
     const { mutate, signIn, history } = this.props;
     e.preventDefault();
     //Insert new user info into the DB and await the response which is the user
     //added
     const { data: { addUser: addedUser } } = await mutate({
-      variables: { firstname, surname, username, password }
+      variables: { input: this.state.input }
     });
     //Redirect user to editor and add the signed in user to redux store
     signIn(addedUser);
     history.push('/edit');
   };
 
+  signIn() {
+    this.setState({ returningUser: !this.state.returningUser });
+  }
+
   render() {
-    const { username, password } = this.state;
+    const { data } = this.props;
     return (
       <LoginContainer>
         <LoginForm>
           <Title>Signup Form</Title>
-          {Object.keys(this.state).map(field => (
-            <Input
-              type={field === 'password' && 'password'}
-              key={field}
-              id={field}
-              placeholder={field}
-              onChange={this.handleChange}
-              value={this.state[field]}
-            />
-          ))}
+          {data && data.error && <Error>Woops Something Went Wrong :(</Error>}
+          {Object.keys(this.state.input).map(field => {
+            const passwordOrEmail = field === 'password' || field === 'email'
+              ? field
+              : 'text';
+            return (
+              <Input
+                type={passwordOrEmail ? field : 'text'}
+                required={passwordOrEmail ? true : false}
+                key={field}
+                id={field}
+                placeholder={field}
+                onChange={this.handleChange}
+                value={this.state[field]}
+              />
+            );
+          })}
           <Button onClick={this.handleSubmit}>
-            Login
+            Sign Up
           </Button>
+          <SignInText onClick={this.signIn}>
+            Already Signed up? Click Here
+          </SignInText>
         </LoginForm>
       </LoginContainer>
     );
