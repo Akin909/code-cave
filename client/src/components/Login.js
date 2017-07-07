@@ -87,24 +87,13 @@ const mapStateToProps = ({ user }: { user: Object }) => ({
 
 export default compose(
   graphql(addUserMutation, {
-    options: ({
-      username,
-      firstname,
-      surname,
-      password
-    }: {
-      username: string,
-      firstname: string,
-      surname: string,
-      password: string
-    }) => ({
-      variables: { username, firstname, surname, password },
+    options: {
       update: (store: Object, { data: { addUser } }: { data: Object }) => {
         const data = store.readQuery({ query: usersQuery });
         data.users.push(addUser); //Needs to be a mutation
         store.writeQuery({ query: usersQuery, data });
       }
-    })
+    }
   }),
   connect(mapStateToProps, { signIn })
 )(Login);

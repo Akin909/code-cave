@@ -76,7 +76,8 @@ class Editor extends Component {
     ]
   };
 
-  componentDidMount() {
+  componentDidUpdate() {
+    console.log('ran');
     this.isUserLoggedIn();
   }
 
@@ -84,12 +85,14 @@ class Editor extends Component {
     const { user: currentUser, data: { users: allUsers } } = this.props;
     if (currentUser.signedIn) {
       //TODO bugfix query does not exist on re-render from login
-      console.log('allUsers', allUsers);
       if (allUsers) {
         const loggedIn = allUsers.find(user => {
           return user.id === currentUser.signedIn.id;
         });
         console.log('currentUser', loggedIn);
+        if (loggedIn.code.length) {
+          this.setState({ code: loggedIn.code[loggedIn.code.length - 1] });
+        }
       }
     }
   };
@@ -125,7 +128,7 @@ class Editor extends Component {
   };
 
   render() {
-    console.log('props', this.props);
+    //console.log('props', this.props);
     const props = this.generateProps();
     const { theme, language } = this.props.editorConfig;
     return (
@@ -169,12 +172,12 @@ const mapStateToProps = ({
 export default compose(
   graphql(queries.usersQuery),
   //TODO compose does not work with two queries in this fashion
-  graphql(queries.findUserCode, {
-    skip: (props: Object) => !props.user || !props.user.signedIn,
-    options: ({ user }: { user: Object }) => ({
-      variables: { id: user.signedIn.id }
-    })
-  }),
+  //graphql(queries.findUserCode, {
+  //skip: (props: Object) => !props.user || !props.user.signedIn,
+  //options: ({ user }: { user: Object }) => ({
+  //variables: { id: user.signedIn.id }
+  //})
+  //}),
   graphql(queries.addCodeMutation, {
     options: ({ user_id, code }: { user_id: string, code: string }) => ({
       variables: { user_id, code }
