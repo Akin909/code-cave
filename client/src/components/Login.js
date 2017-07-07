@@ -43,7 +43,13 @@ class Login extends Component {
 
   handleChange = (e: { target: { id: string, value: string } }) => {
     const { target: { id, value } } = e;
-    this.setState({ [id]: value });
+    this.setState({
+      ...this.state,
+      input: {
+        ...this.state.input,
+        [id]: value
+      }
+    });
   };
 
   handleSubmit = async (e: Event) => {
@@ -66,7 +72,9 @@ class Login extends Component {
   generateProps = (propsObj: Object | void) => ({
     ...this.state,
     ...this.props,
-    ...propsObj
+    ...propsObj,
+    handleChange: this.handleChange,
+    handleSubmit: this.handleSubmit
   });
 
   render() {

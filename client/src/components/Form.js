@@ -32,6 +32,7 @@ const Form = ({
     <Title>{returningUser ? 'Login' : 'Signup Form'}</Title>
     {data && data.error && <Error>Woops Something Went Wrong :(</Error>}
     {Object.keys(input).map(field => {
+      console.log('input', input);
       if (returningUser && field === 'email') {
         return null;
       }
