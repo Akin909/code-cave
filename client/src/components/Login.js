@@ -7,7 +7,9 @@ import { graphql, compose } from 'react-apollo';
 
 import { addUserMutation, usersQuery } from './../queries';
 import { signIn } from './../actions';
-import { Form, StyledLink, Title, Input, Button } from './Styled';
+import { StyledLink, Title, Input, Button } from './Styled';
+
+import Form from './Form';
 
 const LoginContainer = styled.div`
   width: 100%;
@@ -18,21 +20,11 @@ const LoginContainer = styled.div`
   justify-content: center;
 `;
 
-const LoginForm = Form.extend`
-  width: 60%;
-  height: 80%;
-  padding: 2em;
-  background-color: grey;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
 const SignInText = styled.h2`
   text-decoration: underline;
   font-weight: 800;
   font-size: 1.2em;
+  color: white;
 `;
 
 const Error = Title.extend`
@@ -67,40 +59,24 @@ class Login extends Component {
     history.push('/edit');
   };
 
-  signIn() {
+  signIn = () => {
     this.setState({ returningUser: !this.state.returningUser });
-  }
+  };
+
+  generateProps = (propsObj: Object | void) => ({
+    ...this.state,
+    ...this.props,
+    ...propsObj
+  });
 
   render() {
-    const { data } = this.props;
+    const props = this.generateProps();
     return (
       <LoginContainer>
-        <LoginForm>
-          <Title>Signup Form</Title>
-          {data && data.error && <Error>Woops Something Went Wrong :(</Error>}
-          {Object.keys(this.state.input).map(field => {
-            const passwordOrEmail = field === 'password' || field === 'email'
-              ? field
-              : 'text';
-            return (
-              <Input
-                type={passwordOrEmail ? field : 'text'}
-                required={passwordOrEmail ? true : false}
-                key={field}
-                id={field}
-                placeholder={field}
-                onChange={this.handleChange}
-                value={this.state[field]}
-              />
-            );
-          })}
-          <Button onClick={this.handleSubmit}>
-            Sign Up
-          </Button>
-          <SignInText onClick={this.signIn}>
-            Already Signed up? Click Here
-          </SignInText>
-        </LoginForm>
+        <Form {...props} returningUser={this.state.returningUser} />
+        <SignInText onClick={this.signIn}>
+          Already Signed up? Click Here
+        </SignInText>
       </LoginContainer>
     );
   }

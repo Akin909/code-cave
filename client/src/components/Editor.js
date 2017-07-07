@@ -132,7 +132,6 @@ class Editor extends Component {
   };
 
   render() {
-    //console.log('props', this.props);
     const props = this.generateProps();
     const { theme, language } = this.props.editorConfig;
     return (
