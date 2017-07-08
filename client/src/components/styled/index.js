@@ -15,6 +15,11 @@ export const Container = styled.div`
   ${flex}
 `;
 
+export const Grid = Container.extend`
+  align-items: flex-start;
+  flex-wrap: wrap;
+`;
+
 export const StyledLink = styled(Link)`
   color: white;
   margin: 0 1em;
@@ -27,7 +32,8 @@ export const StyledLink = styled(Link)`
 `;
 
 export const Title = styled.h1`
-  
+  color: white;
+  text-align: center;
 `;
 
 export const Input = styled.input`
@@ -70,6 +76,7 @@ export const Button = styled.button`
 `;
 
 export const RoundButton = styled.button`
+  z-index: 10;
   background-color: #96D9FF;
   width: 50px;
   height: 50px;
@@ -85,4 +92,3 @@ export const RoundButton = styled.button`
     transform: scale(1.2,1.2)
    }
 `;
-

@@ -4,17 +4,13 @@ import { graphql } from 'react-apollo';
 import styled from 'styled-components';
 
 import { usersQuery } from './../queries';
-import { Container, Title, flex } from './Styled';
+import { Container, Title, flex, Grid } from './Styled';
 import CodeBlock from './CodeBlock';
 
 const UserTitle = Title.extend`
   color: white;
 `;
 
-const Grid = Container.extend`
-  align-items: flex-start;
-  flex-wrap: wrap;
-`;
 
 const UserContainer = styled.div`
   ${flex};

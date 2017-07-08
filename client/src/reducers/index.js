@@ -3,7 +3,9 @@ import { combineReducers } from 'redux';
 
 const initialConfig = {
   theme: 'tomorrow_night',
-  language: 'javascript'
+  language: 'javascript',
+  fontSize: '14px',
+  menuVisible: false
 };
 
 export function editorConfig(state: Object = initialConfig, action: Object) {

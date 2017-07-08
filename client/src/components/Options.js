@@ -24,6 +24,7 @@ const OptionsDrawer = styled.div`
   background-color: grey;
   transition: all 0.5s ease-in;
   transform: ${props => (props.menuVisible ? 'translateX(0%)' : 'translateX(-100%)')};
+  z-index: 5;
 `;
 
 const MenuTitle = styled.h2`

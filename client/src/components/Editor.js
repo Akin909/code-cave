@@ -20,7 +20,7 @@ import 'brace/mode/java';
 import 'brace/mode/ruby';
 
 import * as queries from './../queries/';
-import { Title, RoundButton, Button, Container, flex } from './Styled';
+import { Title, RoundButton, Button, Container, flex, Grid } from './Styled';
 
 import {
   saveCode,
@@ -111,14 +111,18 @@ class Editor extends Component {
   };
 
   renderUserCode = signedIn => {
-    return signedIn.code.map(({ code, id }) => (
-      <CodeBlock
-        code={code}
-        language="javascript"
-        style="atomOneDark"
-        key={id}
-      />
-    ));
+    if (signedIn.code) {
+      return signedIn.code.map(({ code, id }) => (
+        <CodeBlock
+          code={code}
+          language="javascript"
+          style="atomOneDark"
+          key={id}
+        />
+      ));
+    } else {
+      return <Title>No Saved Code</Title>;
+    }
   };
 
   render() {
@@ -147,7 +151,7 @@ class Editor extends Component {
             {signedIn ? 'Save' : 'Sign in to Save'}
           </SaveButton>
         </EditorViews>
-        {signedIn && <div>{this.renderUserCode(signedIn)}</div>}
+        {signedIn && <Grid>{this.renderUserCode(signedIn)}</Grid>}
       </EditorContainer>
     );
   }
