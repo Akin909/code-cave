@@ -26,7 +26,8 @@ import {
   saveCode,
   changeTheme,
   changeFontSize,
-  changeLanguage
+  changeLanguage,
+  toggleMenu
 } from './../actions/';
 
 import Options from './Options';
@@ -67,7 +68,6 @@ const CodeEditor = styled(AceEditor)`
 class Editor extends Component {
   state = {
     code: '',
-    visible: false,
     languages: ['javascript', 'java', 'ruby'],
     themes: [
       'tomorrow_night',
@@ -87,7 +87,7 @@ class Editor extends Component {
   });
 
   handleMenuClick = (e: Event) => {
-    this.setState({ visible: !this.state.visible });
+    this.props.toggleMenu();
   };
 
   handleChange = (code: string) => {
@@ -185,6 +185,7 @@ export default compose(
     saveCode,
     changeFontSize,
     changeTheme,
-    changeLanguage
+    changeLanguage,
+    toggleMenu
   })
 )(Editor);

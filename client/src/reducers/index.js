@@ -24,6 +24,11 @@ export function editorConfig(state: Object = initialConfig, action: Object) {
         ...state,
         language: action.language
       };
+    case c.TOGGLE_MENU:
+      return {
+        ...state,
+        menuVisible: !state.menuVisible
+      };
     default:
       return state;
   }

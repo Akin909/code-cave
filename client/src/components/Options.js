@@ -23,7 +23,7 @@ const OptionsDrawer = styled.div`
   height: 100%;
   background-color: grey;
   transition: all 0.5s ease-in;
-  transform: ${props => (props.visible ? 'translateX(0%)' : 'translateX(-100%)')};
+  transform: ${props => (props.menuVisible ? 'translateX(0%)' : 'translateX(-100%)')};
 `;
 
 const MenuTitle = styled.h2`
@@ -37,7 +37,6 @@ const Options = ({
   editorConfig,
   themes,
   languages,
-  visible,
   changeFontSize,
   changeTheme,
   changeLanguage
@@ -45,14 +44,14 @@ const Options = ({
   editorConfig: Object,
   themes: Array<string>,
   languages: Array<string>,
-  visible: boolean,
   changeFontSize: (fontSize: string) => Object,
-  changeTheme: (theme: string) => Object,
-  changeLanguage: (language: string) => Object
+  changeTheme: (theme: Event) => Object,
+  changeLanguage: (language: Event) => Object
 }) => {
-  const { fontSize, theme, language } = editorConfig;
+  const { fontSize, theme, language, menuVisible } = editorConfig;
+  console.log('menuVisible', menuVisible);
   return (
-    <OptionsDrawer visible={visible}>
+    <OptionsDrawer menuVisible={menuVisible}>
       <MenuTitle>Options</MenuTitle>
       <Form>
         <Label>
@@ -79,7 +78,7 @@ const Options = ({
 Options.defaultProps = {
   fontSize: '14',
   theme: 'tomorrow_night',
-  visible: false,
+  menuVisible: false,
   languages: [],
   themes: []
 };

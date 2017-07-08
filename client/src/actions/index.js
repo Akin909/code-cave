@@ -25,3 +25,7 @@ export const signIn = (user: Object) => ({
   type: c.SIGN_IN,
   user
 });
+
+export const toggleMenu = () => ({
+  type: c.TOGGLE_MENU
+});
