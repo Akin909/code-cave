@@ -94,8 +94,6 @@ class Login extends Component {
       query: findUser,
       variables: { input: { username, password } }
     });
-    console.log('user', user);
-    console.log('error', error);
     if (error) {
       this.setState({ error });
     } else if (isUser) {
