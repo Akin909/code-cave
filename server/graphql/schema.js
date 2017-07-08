@@ -23,6 +23,12 @@ const typeDefs = `
     password: String!
   }
 
+  type AddUserReturnPayload {
+    id: ID!
+    email: String!
+    username: String!
+  }
+
   # the schema allows the following queries
 
   type Query {
@@ -34,7 +40,7 @@ const typeDefs = `
   type Mutation {
     # A mutation to add a new snippet of code or a new user
     addCode(code: String! user_id: Int): Codebase
-    addUser(input: AddUserInput!): User
+    addUser(input: AddUserInput!): AddUserReturnPayload
   }
 `;
 

@@ -37,7 +37,7 @@ export const addUserMutation = gql`
     addUser(input: $input) {
       username
       email
-      password
+      id
     }
   }
 `;

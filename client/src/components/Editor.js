@@ -81,18 +81,20 @@ class Editor extends Component {
   }
 
   isUserLoggedIn = () => {
-    console.log('users', this.props.data);
-    const { user: currentUser, data: { users: allUsers } } = this.props;
-    if (currentUser.signedIn) {
-      if (allUsers) {
-        const loggedIn = allUsers.find(user => {
-          return user.id === currentUser.signedIn.id;
-        });
-        if (loggedIn.code) {
-          const { code: arrayOfCode } = loggedIn;
-          //console.log('currentUser', loggedIn);
-          if (arrayOfCode && arrayOfCode.length) {
-            this.setState({ code: arrayOfCode[arrayOfCode.length - 1] });
+    if (this.props.data.users) {
+      const { user: currentUser, data: { users: allUsers } } = this.props;
+      if (currentUser.signedIn) {
+        if (allUsers) {
+          const loggedIn = allUsers.find(user => {
+            return user.id === currentUser.signedIn.id;
+          });
+          console.log('allUsers', allUsers);
+          console.log('currentUser', loggedIn);
+          if (loggedIn.code) {
+            const { code: arrayOfCode } = loggedIn;
+            if (arrayOfCode && arrayOfCode.length) {
+              this.setState({ code: arrayOfCode[arrayOfCode.length - 1] });
+            }
           }
         }
       }
@@ -133,7 +135,10 @@ class Editor extends Component {
 
   render() {
     const props = this.generateProps();
-    const { theme, language } = this.props.editorConfig;
+    const {
+      editorConfig: { theme, language },
+      user: { signedIn }
+    } = this.props;
     return (
       <EditorContainer row>
         <Options handleMenuClick={this.handleMenuClick} {...props} />
@@ -153,7 +158,7 @@ class Editor extends Component {
             theme={theme}
           />
           <SaveButton onClick={this.saveCurrentCode}>
-            {this.props.user.signedIn ? 'Save' : 'Sign in to Save'}
+            {signedIn ? 'Save' : 'Sign in to Save'}
           </SaveButton>
         </EditorViews>
       </EditorContainer>
