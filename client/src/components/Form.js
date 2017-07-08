@@ -51,9 +51,11 @@ const Form = ({
         />
       );
     })}
-    <Button onClick={handleSubmit}>
-      Sign Up
-    </Button>
+    {!returningUser
+      ? <Button onClick={handleSubmit}>
+          Sign Up
+        </Button>
+      : <Button>Login</Button>}
   </LoginForm>
 );
 

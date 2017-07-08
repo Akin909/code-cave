@@ -38,7 +38,8 @@ class Login extends Component {
       email: '',
       password: ''
     },
-    returningUser: false
+    returningUser: false,
+    error: ''
   };
 
   handleChange = (e: { target: { id: string, value: string } }) => {
@@ -55,10 +56,17 @@ class Login extends Component {
   handleSubmit = async (e: Event) => {
     const { mutate, signIn, history } = this.props;
     e.preventDefault();
+    const { input } = this.state;
+    Object.values(input).forEach((value: string) => {
+      if (!value.length) {
+        //TODO handle this better
+        return;
+      }
+    });
     //Insert new user info into the DB and await the response which is the user
     //added
     const { data: { addUser: addedUser } } = await mutate({
-      variables: { input: this.state.input }
+      variables: { input }
     });
     //Redirect user to editor and add the signed in user to redux store
     signIn(addedUser);
@@ -66,6 +74,8 @@ class Login extends Component {
   };
 
   signIn = () => {
+    //This state should be transient as it is only relevant when the user is
+    //here
     this.setState({ returningUser: !this.state.returningUser });
   };
 

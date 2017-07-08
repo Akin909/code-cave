@@ -70,7 +70,8 @@ const resolvers = {
           return null;
         })
         .filter(e => e);
-      if (errors.length) throw new Error('Validation error');
+      console.log('errors', errors);
+      if (errors.length) throw new Error(errors);
       try {
         const salt = await bcrypt.genSalt(10);
         const saltedAndHashed = await bcrypt.hash(password, salt);
