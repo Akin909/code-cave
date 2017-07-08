@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 import { StyledLink } from './Styled';
 import lambda from './../assets/lambda.png';
@@ -42,24 +43,29 @@ const Links = styled.div`
   display: flex;
 `;
 
+const UserGreeting = LogoText.extend`
+  font-size: 1.2em;
+`;
+
 const LogoContainer = Links.extend``;
 
-class Nav extends Component {
-  render() {
-    return (
-      <NavContainer>
-        <LogoContainer>
-          <LogoText>CodeCave</LogoText>
-          {/*<LogoIcon src={lambda} /> */}
-        </LogoContainer>
-        <Links>
-          <StyledLink to="/">Home</StyledLink>
-          <StyledLink to="/edit">Editor</StyledLink>
-          <StyledLink to="/login">Login</StyledLink>
-        </Links>
-      </NavContainer>
-    );
-  }
-}
+const Nav = ({ signedIn }: { signedIn: Object }) => (
+  <NavContainer>
+    <LogoContainer>
+      <LogoText>CodeCave</LogoText>
+      {/*<LogoIcon src={lambda} /> */}
+    </LogoContainer>
+    {signedIn && <UserGreeting>Hi, {signedIn.username}</UserGreeting>}
+    <Links>
+      <StyledLink to="/">Home</StyledLink>
+      <StyledLink to="/edit">Editor</StyledLink>
+      <StyledLink to="/login">Login</StyledLink>
+    </Links>
+  </NavContainer>
+);
 
-export default Nav;
+const mapStateToProps = ({ user: { signedIn } }: { signedIn: Object }) => ({
+  signedIn
+});
+
+export default connect(mapStateToProps)(Nav);
