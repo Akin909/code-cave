@@ -88,18 +88,23 @@ class Login extends Component {
 
   findUser = async (e: Event) => {
     e.preventDefault();
-    const { signIn, client } = this.props;
+    const { signIn, client, history } = this.props;
     const { input: { password, username } } = this.state;
-    const { data: { findUser: foundUser } } = await client.query({
+    const { data: { findUser: { isUser, user, error } } } = await client.query({
       query: findUser,
       variables: { input: { username, password } }
     });
-    if (foundUser.isUser) {
+    console.log('user', user);
+    console.log('error', error);
+    if (error) {
+      this.setState({ error });
+    } else if (isUser) {
       signIn({
-        username: foundUser.username,
-        email: foundUser.email,
-        id: foundUser.id
+        username: user.username,
+        email: user.email,
+        id: user.id
       });
+      history.push('/edit');
     }
   };
 

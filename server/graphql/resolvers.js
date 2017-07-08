@@ -28,17 +28,20 @@ const resolvers = {
           `SELECT users.password, users.username, users.id, users.email FROM users WHERE username = $1`,
           username
         );
-        console.log('input', dbRes);
-        const isUser = await bcrypt.compare(password, hashedPassword);
-        return {
-          isUser,
-          user: {
-            username: dbRes.username,
-            email: dbRes.email,
-            id: dbRes.id
-          },
-          error: ''
-        };
+        const isUser = await bcrypt.compare(password, dbRes.password);
+        if (isUser) {
+          return {
+            isUser,
+            user: {
+              username: dbRes.username,
+              email: dbRes.email,
+              id: dbRes.id
+            },
+            error: ''
+          };
+        } else {
+          throw new Error('You are not registered with us');
+        }
       } catch (e) {
         return {
           error: e.message,
