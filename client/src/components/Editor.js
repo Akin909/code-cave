@@ -45,6 +45,7 @@ const MenuButton = RoundButton.extend`
 
 const EditorContainer = Container.extend`
   position: relative;
+  height: 100vh;
 `;
 
 const EditorViews = styled.div`
@@ -88,8 +89,6 @@ class Editor extends Component {
           const loggedIn = allUsers.find(user => {
             return user.id === currentUser.signedIn.id;
           });
-          console.log('allUsers', allUsers);
-          console.log('currentUser', loggedIn);
           if (loggedIn.code) {
             const { code: arrayOfCode } = loggedIn;
             if (arrayOfCode && arrayOfCode.length) {
@@ -121,7 +120,6 @@ class Editor extends Component {
     const { user: { signedIn }, mutate, history } = this.props;
     this.props.saveCode(code);
     if (signedIn) {
-      console.log('saving', signedIn.id);
       const received = await mutate({
         variables: {
           code,
@@ -151,7 +149,7 @@ class Editor extends Component {
           <CodeEditor
             enableBasicAutoCompletion={true}
             width={'70%'}
-            height={'60%'}
+            height={'35em'}
             value={this.state.code}
             onChange={this.handleChange}
             mode={language}
@@ -180,15 +178,24 @@ const mapStateToProps = ({
 export default compose(
   graphql(queries.usersQuery),
   //TODO compose does not work with two queries in this fashion
-  //graphql(queries.findUserCode, {
-  //skip: (props: Object) => !props.user || !props.user.signedIn,
-  //options: ({ user }: { user: Object }) => ({
-  //variables: { id: user.signedIn.id }
-  //})
-  //}),
+  graphql(queries.findUserCode, {
+    skip: (props: Object) => !props.user || !props.user.signedIn,
+    options: ({ user }: { user: Object }) => ({
+      variables: { id: user.signedIn.id }
+    })
+  }),
   graphql(queries.addCodeMutation, {
     options: ({ user_id, code }: { user_id: string, code: string }) => ({
-      variables: { user_id, code }
+      variables: { user_id, code },
+      update: (
+        store: Object,
+        { data: { addCodeMutation } }: { data: Object }
+      ) => {
+        console.log('running add mutation', addCodeMutation);
+        const data = store.readQuery({ query: queries.usersQuery });
+        data.users.push(addCodeMutation); //Needs to be a mutation
+        store.writeQuery({ query: queries.usersQuery, data });
+      }
     })
   }),
   connect(mapStateToProps, {

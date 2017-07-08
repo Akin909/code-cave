@@ -19,13 +19,15 @@ const Form = ({
   handleChange,
   handleSubmit,
   returningUser,
+  users,
   error,
   data
 }: //FIXME data annotation
 {
-  returningUser: boolean,
+  returningUser: Boolean,
   handleChange: (e: Event) => void,
   handleSubmit: (e: Event) => void,
+  users: Array<Object>,
   error: String,
   data: Object | void,
   input: Object
@@ -56,11 +58,9 @@ const Form = ({
         />
       );
     })}
-    {!returningUser
-      ? <Button onClick={handleSubmit}>
-          Sign Up
-        </Button>
-      : <Button>Login</Button>}
+    <Button onClick={handleSubmit}>
+      {!returningUser ? 'Sign Up' : 'Login'}
+    </Button>
   </LoginForm>
 );
 

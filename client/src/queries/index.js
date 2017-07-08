@@ -14,6 +14,20 @@ export const usersQuery = gql`
   }
 `;
 
+export const findUser = gql`
+  query findUserQuery($input: UserInput!) {
+    findUser(input: $input){
+      isUser
+      error
+      user {
+        username
+        email
+        id
+      }
+    }
+  }
+`;
+
 export const findUserCode = gql`
   query findUserCode($id: Int!) {
     findCode(id: $id){

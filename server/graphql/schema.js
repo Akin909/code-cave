@@ -23,6 +23,17 @@ const typeDefs = `
     password: String!
   }
 
+  input UserInput {
+    username: String!
+    password: String!
+  }
+
+  type findUserReturnPayload {
+    isUser: Boolean
+    user: User
+    error: String
+  }
+
   type AddUserReturnPayload {
     id: ID!
     email: String!
@@ -33,7 +44,7 @@ const typeDefs = `
 
   type Query {
     users: [User]
-    user(id: Int!): [User]
+    findUser(input: UserInput!): findUserReturnPayload
     findCode(id: Int!): [Codebase]
   }
 

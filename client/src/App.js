@@ -19,7 +19,8 @@ import rootReducer from './reducers';
 
 const AppContainer = styled.div`
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
+  height: auto;
   font-family: Helvetica;
   background-color: black;
 `;

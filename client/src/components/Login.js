@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { graphql, compose } from 'react-apollo';
+import { withApollo, graphql, compose } from 'react-apollo';
 
-import { addUserMutation, usersQuery } from './../queries';
+import { addUserMutation, findUser, usersQuery } from './../queries';
 import { signIn } from './../actions';
 import { StyledLink, Title, Input, Button } from './Styled';
 
@@ -13,7 +13,7 @@ import Form from './Form';
 
 const LoginContainer = styled.div`
   width: 100%;
-  height: 90%;
+  height: 90vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -58,7 +58,7 @@ class Login extends Component {
     e.preventDefault();
     const { input } = this.state;
     const inputsAreEmpty = !Object.values(input).every(
-      (value: string) => value
+      (value: String) => value
     );
     if (inputsAreEmpty)
       return this.setState({ error: 'Please fill out all inputs' });
@@ -83,14 +83,31 @@ class Login extends Component {
     ...this.props,
     ...propsObj,
     handleChange: this.handleChange,
-    handleSubmit: this.handleSubmit
+    handleSubmit: this.state.returningUser ? this.findUser : this.handleSubmit
   });
+
+  findUser = async (e: Event) => {
+    e.preventDefault();
+    const { signIn, client } = this.props;
+    const { input: { password, username } } = this.state;
+    const { data: { findUser: foundUser } } = await client.query({
+      query: findUser,
+      variables: { input: { username, password } }
+    });
+    if (foundUser.isUser) {
+      signIn({
+        username: foundUser.username,
+        email: foundUser.email,
+        id: foundUser.id
+      });
+    }
+  };
 
   render() {
     const props = this.generateProps();
     return (
       <LoginContainer>
-        <Form {...props} returningUser={this.state.returningUser} />
+        <Form {...props} />
         <SignInText onClick={this.signIn}>
           Already Signed up? Click Here
         </SignInText>
@@ -103,15 +120,17 @@ const mapStateToProps = ({ user }: { user: Object }) => ({
   user
 });
 
-export default compose(
-  graphql(addUserMutation, {
-    options: {
-      update: (store: Object, { data: { addUser } }: { data: Object }) => {
-        const data = store.readQuery({ query: usersQuery });
-        data.users.push(addUser); //Needs to be a mutation
-        store.writeQuery({ query: usersQuery, data });
+export default withApollo(
+  compose(
+    graphql(addUserMutation, {
+      options: {
+        update: (store: Object, { data: { addUser } }: { data: Object }) => {
+          const data = store.readQuery({ query: usersQuery });
+          data.users.push(addUser); //Needs to be a mutation
+          store.writeQuery({ query: usersQuery, data });
+        }
       }
-    }
-  }),
-  connect(mapStateToProps, { signIn })
-)(Login);
+    }),
+    connect(mapStateToProps, { signIn })
+  )(Login)
+);

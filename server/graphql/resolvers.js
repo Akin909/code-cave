@@ -21,10 +21,31 @@ const resolvers = {
         return e;
       }
     },
-    user: (_, { id }) =>
-      db
-        .query(`SELECT * FROM users, codebase WHERE users.id = $1`, id)
-        .catch(err => err),
+    findUser: async (_, { input }) => {
+      const { username, password } = input;
+      try {
+        const [dbRes] = await db.query(
+          `SELECT users.password, users.username, users.id, users.email FROM users WHERE username = $1`,
+          username
+        );
+        console.log('input', dbRes);
+        const isUser = await bcrypt.compare(password, hashedPassword);
+        return {
+          isUser,
+          user: {
+            username: dbRes.username,
+            email: dbRes.email,
+            id: dbRes.id
+          },
+          error: ''
+        };
+      } catch (e) {
+        return {
+          error: e.message,
+          isUser: false
+        };
+      }
+    },
     findCode: (_, { id }) =>
       db
         .query(
@@ -34,13 +55,13 @@ const resolvers = {
         .catch(err => err)
   },
   Mutation: {
-    addCode: async (root, { code, id }) => {
+    addCode: async (root, { code, user_id }) => {
       try {
         const [
           res
         ] = await db.query(
-          `INSERT INTO codebase (user_id, code) VALUES ($1, $2)`,
-          [id, code]
+          `INSERT INTO codebase (user_id, code) VALUES ($1, $2) RETURNING ID`,
+          [user_id, code]
         );
         return {
           code,
