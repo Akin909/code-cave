@@ -100,7 +100,8 @@ class Login extends Component {
       signIn({
         username: user.username,
         email: user.email,
-        id: user.id
+        id: user.id,
+        code: user.code
       });
       history.push('/edit');
     }

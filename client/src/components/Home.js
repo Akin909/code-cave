@@ -1,12 +1,11 @@
 //@flow
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import { atomOneDark } from 'react-syntax-highlighter/dist/styles';
 import styled from 'styled-components';
 
 import { usersQuery } from './../queries';
 import { Container, Title, flex } from './Styled';
+import CodeBlock from './CodeBlock';
 
 const UserTitle = Title.extend`
   color: white;
@@ -15,15 +14,6 @@ const UserTitle = Title.extend`
 const Grid = Container.extend`
   align-items: flex-start;
   flex-wrap: wrap;
-`;
-
-const CodeBlock = styled(SyntaxHighlighter)`
-  margin: 1em;
-  padding: 0.5em;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
-  background-color: whitesmoke;
-  width: 40%;
-  height: 15em;
 `;
 
 const UserContainer = styled.div`
@@ -54,10 +44,9 @@ class Home extends Component {
                     showLineNumbers
                     key={id}
                     language="javascript"
-                    style={atomOneDark}
-                  >
-                    {code}
-                  </CodeBlock>
+                    style="atomOneDark"
+                    code={code}
+                  />
                 ))}
               </Grid>
             </UserContainer>

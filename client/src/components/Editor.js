@@ -21,6 +21,7 @@ import 'brace/mode/ruby';
 
 import * as queries from './../queries/';
 import { Title, RoundButton, Button, Container, flex } from './Styled';
+
 import {
   saveCode,
   changeTheme,
@@ -29,6 +30,7 @@ import {
 } from './../actions/';
 
 import Options from './Options';
+import CodeBlock from './CodeBlock';
 
 const SaveButton = Button.extend`
   font-size: 1.3em;
@@ -44,6 +46,7 @@ const MenuButton = RoundButton.extend`
 `;
 
 const EditorContainer = Container.extend`
+  flex-direction: column;
   position: relative;
   height: 100vh;
 `;
@@ -77,29 +80,6 @@ class Editor extends Component {
     ]
   };
 
-  componentDidUpdate() {
-    this.isUserLoggedIn();
-  }
-
-  isUserLoggedIn = () => {
-    if (this.props.data.users) {
-      const { user: currentUser, data: { users: allUsers } } = this.props;
-      if (currentUser.signedIn) {
-        if (allUsers) {
-          const loggedIn = allUsers.find(user => {
-            return user.id === currentUser.signedIn.id;
-          });
-          if (loggedIn.code) {
-            const { code: arrayOfCode } = loggedIn;
-            if (arrayOfCode && arrayOfCode.length) {
-              this.setState({ code: arrayOfCode[arrayOfCode.length - 1] });
-            }
-          }
-        }
-      }
-    }
-  };
-
   generateProps = (propsObj: Object | void) => ({
     ...this.state,
     ...this.props,
@@ -115,7 +95,6 @@ class Editor extends Component {
   };
 
   saveCurrentCode = async () => {
-    console.log('Save current code');
     const { code } = this.state;
     const { user: { signedIn }, mutate, history } = this.props;
     this.props.saveCode(code);
@@ -131,20 +110,29 @@ class Editor extends Component {
     }
   };
 
+  renderUserCode = signedIn => {
+    return signedIn.code.map(({ code, id }) => (
+      <CodeBlock
+        code={code}
+        language="javascript"
+        style="atomOneDark"
+        key={id}
+      />
+    ));
+  };
+
   render() {
-    const props = this.generateProps();
+    const props = this.generateProps({ onClick: this.handleMenuClick });
     const {
       editorConfig: { theme, language },
-      user: { signedIn }
+      user: { signedIn },
+      data: { users }
     } = this.props;
     return (
       <EditorContainer row>
-        <Options handleMenuClick={this.handleMenuClick} {...props} />
+        <Options {...props} />
         <Title>Editor</Title>
-        <MenuButton
-          visible={this.state.visible}
-          onClick={this.handleMenuClick}
-        />
+        <MenuButton {...props} />
         <EditorViews>
           <CodeEditor
             enableBasicAutoCompletion={true}
@@ -159,6 +147,7 @@ class Editor extends Component {
             {signedIn ? 'Save' : 'Sign in to Save'}
           </SaveButton>
         </EditorViews>
+        {signedIn && <div>{this.renderUserCode(signedIn)}</div>}
       </EditorContainer>
     );
   }
@@ -187,14 +176,8 @@ export default compose(
   graphql(queries.addCodeMutation, {
     options: ({ user_id, code }: { user_id: string, code: string }) => ({
       variables: { user_id, code },
-      update: (
-        store: Object,
-        { data: { addCodeMutation } }: { data: Object }
-      ) => {
-        console.log('running add mutation', addCodeMutation);
-        const data = store.readQuery({ query: queries.usersQuery });
-        data.users.push(addCodeMutation); //Needs to be a mutation
-        store.writeQuery({ query: queries.usersQuery, data });
+      updateQueries: {
+        query: queries.usersQuery
       }
     })
   }),

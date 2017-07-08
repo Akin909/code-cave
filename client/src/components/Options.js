@@ -38,7 +38,6 @@ const Options = ({
   themes,
   languages,
   visible,
-  handleMenuClick,
   changeFontSize,
   changeTheme,
   changeLanguage
@@ -47,10 +46,9 @@ const Options = ({
   themes: Array<string>,
   languages: Array<string>,
   visible: boolean,
-  handleMenuClick: (event: Event) => void,
   changeFontSize: (fontSize: string) => Object,
-  changeTheme: (theme: Object) => Object,
-  changeLanguage: (language: Object) => Object
+  changeTheme: (theme: string) => Object,
+  changeLanguage: (language: string) => Object
 }) => {
   const { fontSize, theme, language } = editorConfig;
   return (

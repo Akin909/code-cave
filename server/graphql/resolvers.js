@@ -29,13 +29,18 @@ const resolvers = {
           username
         );
         const isUser = await bcrypt.compare(password, dbRes.password);
+        const code = await db.query(
+          `SELECT * FROM codebase WHERE $1 = codebase.user_id`,
+          dbRes.id
+        );
         if (isUser) {
           return {
             isUser,
             user: {
               username: dbRes.username,
               email: dbRes.email,
-              id: dbRes.id
+              id: dbRes.id,
+              code
             },
             error: ''
           };

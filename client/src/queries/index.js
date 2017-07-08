@@ -23,6 +23,11 @@ export const findUser = gql`
         username
         email
         id
+        code {
+          code
+          user_id
+          id
+        }
       }
     }
   }
