@@ -19,20 +19,25 @@ const Form = ({
   handleChange,
   handleSubmit,
   returningUser,
+  error,
   data
 }: //FIXME data annotation
 {
   returningUser: boolean,
   handleChange: (e: Event) => void,
   handleSubmit: (e: Event) => void,
+  error: String,
   data: Object | void,
   input: Object
 }) => (
   <LoginForm>
     <Title>{returningUser ? 'Login' : 'Signup Form'}</Title>
-    {data && data.error && <Error>Woops Something Went Wrong :(</Error>}
+    {error || //If there is an error from parent state or from apollo
+      (data &&
+      data.error && //Render an error message
+        //TODO this complicated comparison is unclear
+        <Error>Woops Something Went Wrong: {error}</Error>)}
     {Object.keys(input).map(field => {
-      console.log('input', input);
       if (returningUser && field === 'email') {
         return null;
       }

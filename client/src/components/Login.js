@@ -57,12 +57,11 @@ class Login extends Component {
     const { mutate, signIn, history } = this.props;
     e.preventDefault();
     const { input } = this.state;
-    Object.values(input).forEach((value: string) => {
-      if (!value.length) {
-        //TODO handle this better
-        return;
-      }
-    });
+    const inputsAreEmpty = !Object.values(input).every(
+      (value: string) => value
+    );
+    if (inputsAreEmpty)
+      return this.setState({ error: 'Please fill out all inputs' });
     //Insert new user info into the DB and await the response which is the user
     //added
     const { data: { addUser: addedUser } } = await mutate({
