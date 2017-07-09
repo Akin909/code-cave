@@ -50,7 +50,7 @@ const typeDefs = `
 
   type Mutation {
     # A mutation to add a new snippet of code or a new user
-    addCode(code: String! user_id: Int): Codebase
+    addCode(user_id: Int code: String!): Codebase
     addUser(input: AddUserInput!): AddUserReturnPayload
   }
 `;

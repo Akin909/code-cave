@@ -11,7 +11,6 @@ const UserTitle = Title.extend`
   color: white;
 `;
 
-
 const UserContainer = styled.div`
   ${flex};
   width: 100%;
@@ -21,11 +20,6 @@ const UserContainer = styled.div`
 class Home extends Component {
   render() {
     const { data: { users } } = this.props;
-    if (users) {
-      const userCode = users
-        .filter(user => user.code.length)
-        .map(user => user.code);
-    }
     return (
       <Container>
         {users &&

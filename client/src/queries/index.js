@@ -43,8 +43,9 @@ export const findUserCode = gql`
 `;
 
 export const addCodeMutation = gql`
-  mutation addCodeMutation($user_id: Int! $code:String!){
-  addCode(user_id: $user_id code: $code){
+  mutation addCodeMutation($id: ID! $user_id: Int! $code:String!){
+  addCode(id: $id user_id: $user_id code: $code){
+      id
       user_id
       code
     }

@@ -118,7 +118,8 @@ const resolvers = {
           return {
             id: res.id,
             username,
-            email
+            email,
+            code: []
           };
         } else {
           throw new Error('There is a duplicate');
