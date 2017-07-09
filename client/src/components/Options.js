@@ -50,7 +50,6 @@ const Options = ({
   changeLanguage: (language: Event) => Object
 }) => {
   const { fontSize, theme, language, menuVisible } = editorConfig;
-  console.log('menuVisible', menuVisible);
   return (
     <OptionsDrawer menuVisible={menuVisible}>
       <MenuTitle>Options</MenuTitle>

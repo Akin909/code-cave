@@ -84,13 +84,14 @@ const resolvers = {
     },
     addUser: async (root, { input }) => {
       const { username, email, password } = input;
-      const errors = Object.values(input)
+      const errors = Object.keys(input)
         .filter(field => {
-          //FIXME
+          //FIXME errors are thrown handle as errors or return error messages
+          //to front end
           if (validator.isEmpty(field)) {
             return { key: field, message: `${field} is empty` };
           } else if (field === 'email') {
-            if (!validator.isEmail(field)) {
+            if (!validator.isEmail(input[field])) {
               return { key: field, message: `Please submit a valid email` };
             }
           } else if (!validator.isLength(field, { max: 20 })) {
@@ -99,7 +100,6 @@ const resolvers = {
           return null;
         })
         .filter(e => e);
-      console.log('errors', errors);
       if (errors.length) throw new Error(errors);
       try {
         const salt = await bcrypt.genSalt(10);
