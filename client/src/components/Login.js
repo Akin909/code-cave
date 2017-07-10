@@ -60,6 +60,7 @@ class Login extends Component {
     const inputsAreEmpty = !Object.values(input).every(
       (value: String) => value
     );
+    //TODO add more intensive client and serverside validation
     if (inputsAreEmpty)
       return this.setState({ error: 'Please fill out all inputs' });
     //Insert new user info into the DB and await the response which is the user
