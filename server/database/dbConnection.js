@@ -4,6 +4,7 @@ require('dotenv').config();
 const connection = {
   host: 'localhost',
   port: 5432,
+  name: 'code-cave',
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD
 };
