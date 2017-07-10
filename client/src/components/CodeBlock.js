@@ -27,7 +27,7 @@ const CodeBlock = ({
   style: Object,
   code: String
 }) => (
-  <Code showLineNumbers language="javascript" style={codeStyle[style]}>
+  <Code showLineNumbers language={language} style={codeStyle[style]}>
     {code}
   </Code>
 );
