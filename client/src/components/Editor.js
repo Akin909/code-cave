@@ -4,23 +4,18 @@ import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
 import styled from 'styled-components';
-import AceEditor from 'react-ace';
 import brace from 'brace';
-
-import 'brace/theme/tomorrow_night';
-import 'brace/theme/monokai';
-import 'brace/theme/github';
-import 'brace/theme/tomorrow';
-import 'brace/theme/solarized_dark';
-import 'brace/theme/terminal';
-import 'brace/theme/textmate';
-
-import 'brace/mode/javascript';
-import 'brace/mode/java';
-import 'brace/mode/ruby';
+import { Title, Grid } from './Styled';
 
 import * as queries from './../queries/';
-import { Title, RoundButton, Button, Container, flex, Grid } from './Styled';
+import {
+  MenuButton,
+  EditorContainer,
+  EditorViews,
+  CodeEditor,
+  NoCode,
+  SaveButton
+} from './EditorStyles';
 
 import {
   saveCode,
@@ -33,60 +28,52 @@ import {
 import Options from './Options';
 import CodeBlock from './CodeBlock';
 
-const SaveButton = Button.extend`
-  font-size: 1.3em;
-  margin: 0.5em;
-  min-width: 8em;
-  width: auto;
-`;
+const themes = [
+  'monokai',
+  'github',
+  'tomorrow_night',
+  'kuroir',
+  'twilight',
+  'xcode',
+  'textmate',
+  'solarized_dark',
+  'solarized_light',
+  'terminal'
+];
 
-const MenuButton = RoundButton.extend`
-  top:  1em;
-  left: 1em;
-  position: absolute;
-`;
+const languages = [
+  'javascript',
+  'java',
+  'python',
+  'xml',
+  'ruby',
+  'sass',
+  'markdown',
+  'mysql',
+  'json',
+  'html',
+  'handlebars',
+  'golang',
+  'csharp',
+  'elixir',
+  'typescript',
+  'css'
+];
 
-const EditorContainer = Container.extend`
-  flex-direction: column;
-  position: relative;
-  height: 100vh;
-  min-width: 100vw;
-  width: auto;
-  overflowX:scroll;
-`;
+themes.forEach(theme => {
+  require(`brace/theme/${theme}`);
+});
 
-const EditorViews = styled.div`
-  width: 100%;
-  height: 100%;
-  ${flex}
-`;
-
-const CodeEditor = styled(AceEditor)`
-  width: 80%;
-  height: 100%;
-  box-shadow: -1px 2px 0 rgba(0, 0, 0, 0.5);
-  margin: 0.2em;
-`;
-
-const NoCode = Title.extend`
-  width: 100%;
-  text-align: center;
-  padding: 0.2em;
-`;
+languages.forEach(lang => {
+  require(`brace/mode/${lang}`);
+  require(`brace/snippets/${lang}`);
+});
 
 class Editor extends Component {
   state = {
     code: '',
-    languages: ['javascript', 'java', 'ruby'],
-    themes: [
-      'tomorrow_night',
-      'monokai',
-      'github',
-      'tomorrow',
-      'textmate',
-      'solarized_dark',
-      'terminal'
-    ]
+    languages,
+    themes
   };
 
   generateProps = (propsObj: Object | void) => ({
@@ -101,12 +88,10 @@ class Editor extends Component {
 
   handleChange = (code: string) => {
     this.props.saveCode(code);
-    //this.setState({ code });
   };
 
   editCode = (code: string) => {
     this.props.saveCode(code);
-    //this.setState({ code });
   };
 
   saveCurrentCode = async () => {
