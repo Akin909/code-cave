@@ -5,7 +5,7 @@ the eventual added functionality of an inbuilt REPL so that you can write code a
 save it for later.
 
 
-<img src="./code-cave.gif" width="400px" height="400px" alt="demo of code cave app"/>
+<img src="./code-cave.gif" width="500px" height="400px" alt="demo of code cave app"/>
 
 ## The Aim of this Project
 was to build on the functionality of Github's gists by not only providing a place where code can be save but also providing a better tooled online editor i.e. with syntax highlighting themes and a REPL so that code can be evalutated as it is being written.
