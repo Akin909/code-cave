@@ -1,12 +1,13 @@
 {
-  "name": "React-Boilerplate",
+  "name": "Code-Cave",
   "version": "1.0.0",
-  "description": "A Boilerplate setup for new react projects",
+  "description": "A code storage app for trialing and storing snippets of code",
   "main": "index.js",
   "author": "Akin Sowemimo",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "NODE_ENV=production webpack-dev-server",
+    "dev": "NODE_ENV=development webpack-dev-server",
     "server": "nodemon ./../server/server.js --exec babel-node -e js",
     "both": "concurrently \"webpack-dev-server\" \"nodemon ./../server/server.js --exec babel-node -e js\"",
     "build": "webpack -p",

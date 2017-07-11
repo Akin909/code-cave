@@ -26,7 +26,9 @@ const AppContainer = styled.div`
 `;
 
 export const networkInterface = createNetworkInterface({
-  uri: 'https://code-cave-backend.herokuapp.com/graphql'
+  uri: process.env.NODE_ENV === 'production'
+    ? 'https://code-cave-backend.herokuapp.com/graphql'
+    : 'http://localhost:4001/graphql'
 });
 export const client = new ApolloClient({ networkInterface });
 
