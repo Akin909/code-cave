@@ -19,6 +19,10 @@ A React/Redux JS app which attempts to build on the functionality of Github's gi
 * `git clone` the repository
 * `cd client && yarn install`
 * `cd ../server/ && yarn install`
+* Setup Local Database
+  * Set up local database - if you have pg installed run `createdb code-cave`
+  * If you do not have pg installed here is [link](https://www.moncefbelyamani.com/how-to-install-postgresql-on-a-mac-with-homebrew-and-lunchy/) on how to get setup
+  * Then run yarn build:db
 * From the `client` directory `yarn run both:dev`
 
 
