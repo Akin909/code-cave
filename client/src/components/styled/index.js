@@ -79,8 +79,8 @@ export const Button = styled.button`
 export const RoundButton = styled.button`
   z-index: 10;
   background-color: #96D9FF;
-  width: 50px;
-  height: 50px;
+  width: 3em;
+  height: 3em;
   border-radius: 50%;
   border: 10px solid #0065A6;
   outline: none;

@@ -6,10 +6,16 @@ import { StyledLink } from './Styled';
 import lambda from './../assets/lambda.png';
 
 const DarkLink = StyledLink.extend`
-  background-color: #242424;
   width: 100%;
+  margin: 0;
+  padding: 0.3em;
+  transition: background-color 0.15s ease-in;
+  &:hover {
+    background-color: black;
+  }
 `;
 // Idea for dark nav #383838;
+//#172232 - dark blue
 const NavContainer = styled.header`
   width: 100%;
   height: 3em;
@@ -18,7 +24,6 @@ const NavContainer = styled.header`
   align-items: center;
   justify-content: space-between;
   z-index: 10;
-  padding: 0.3em;
 `;
 
 const LogoText = styled.h2`
@@ -57,9 +62,9 @@ const Nav = ({ signedIn }: { signedIn: Object }) => (
     </LogoContainer>
     {signedIn && <UserGreeting>Hi, {signedIn.username}</UserGreeting>}
     <Links>
-      <StyledLink to="/">Home</StyledLink>
-      <StyledLink to="/edit">Editor</StyledLink>
-      <StyledLink to="/login">Login</StyledLink>
+      <DarkLink to="/">Home</DarkLink>
+      <DarkLink to="/edit">Editor</DarkLink>
+      <DarkLink to="/login">Login</DarkLink>
     </Links>
   </NavContainer>
 );

@@ -20,6 +20,12 @@ const UserContainer = styled.div`
 `;
 
 class Home extends Component {
+  props = {
+    saveCode: string => Object,
+    data: Object,
+    users: Array
+  };
+
   editCode = code => {
     const { saveCode, history: { push } } = this.props;
     saveCode(code);
