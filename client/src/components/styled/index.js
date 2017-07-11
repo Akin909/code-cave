@@ -18,6 +18,7 @@ export const Container = styled.div`
 export const Grid = Container.extend`
   align-items: flex-start;
   flex-wrap: wrap;
+  overflow-y: scroll;
 `;
 
 export const StyledLink = styled(Link)`

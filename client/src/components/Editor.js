@@ -50,6 +50,9 @@ const EditorContainer = Container.extend`
   flex-direction: column;
   position: relative;
   height: 100vh;
+  min-width: 100vw;
+  width: auto;
+  overflowX:scroll;
 `;
 
 const EditorViews = styled.div`
@@ -63,6 +66,12 @@ const CodeEditor = styled(AceEditor)`
   height: 100%;
   box-shadow: -1px 2px 0 rgba(0, 0, 0, 0.5);
   margin: 0.2em;
+`;
+
+const NoCode = Title.extend`
+  width: 100%;
+  text-align: center;
+  padding: 0.2em;
 `;
 
 class Editor extends Component {
@@ -121,7 +130,7 @@ class Editor extends Component {
         />
       ));
     } else {
-      return <Title>No Saved Code</Title>;
+      return <NoCode>No Saved Code</NoCode>;
     }
   };
 
@@ -170,19 +179,14 @@ const mapStateToProps = ({
 
 export default compose(
   graphql(queries.usersQuery),
-  //TODO compose does not work with two queries in this fashion
-  graphql(queries.findUserCode, {
-    skip: (props: Object) => !props.user || !props.user.signedIn,
-    options: ({ user }: { user: Object }) => ({
-      variables: { id: user.signedIn.id }
-    })
-  }),
   graphql(queries.addCodeMutation, {
     options: ({ user_id, code }: { user_id: string, code: string }) => ({
       variables: { user_id, code },
-      updateQueries: {
-        query: queries.usersQuery
-      }
+      refetchQueries: [
+        {
+          query: queries.usersQuery
+        }
+      ]
     })
   }),
   connect(mapStateToProps, {
