@@ -50,6 +50,7 @@ const Links = styled.div`
 
 const UserGreeting = LogoText.extend`
   font-size: 1.2em;
+  text-align: center;
 `;
 
 const LogoContainer = Links.extend``;
