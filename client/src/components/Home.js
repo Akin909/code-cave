@@ -1,8 +1,10 @@
 //@flow
 import React, { Component } from 'react';
-import { graphql } from 'react-apollo';
+import { connect } from 'react-redux';
+import { graphql, compose } from 'react-apollo';
 import styled from 'styled-components';
 
+import { saveCode } from './../actions';
 import { usersQuery } from './../queries';
 import { Container, Title, flex, Grid } from './Styled';
 import CodeBlock from './CodeBlock';
@@ -18,6 +20,11 @@ const UserContainer = styled.div`
 `;
 
 class Home extends Component {
+  editCode = code => {
+    const { saveCode, history: { push } } = this.props;
+    saveCode(code);
+    push('/edit');
+  };
   render() {
     const { data: { users } } = this.props;
     return (
@@ -36,6 +43,7 @@ class Home extends Component {
                     language="javascript"
                     style="atomOneDark"
                     code={code}
+                    editCode={this.editCode}
                   />
                 ))}
               </Grid>
@@ -46,4 +54,4 @@ class Home extends Component {
   }
 }
 
-export default graphql(usersQuery)(Home);
+export default compose(connect(null, { saveCode }), graphql(usersQuery))(Home);

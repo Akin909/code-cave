@@ -100,7 +100,13 @@ class Editor extends Component {
   };
 
   handleChange = (code: string) => {
-    this.setState({ code });
+    this.props.saveCode(code);
+    //this.setState({ code });
+  };
+
+  editCode = (code: string) => {
+    this.props.saveCode(code);
+    //this.setState({ code });
   };
 
   saveCurrentCode = async () => {
@@ -123,6 +129,7 @@ class Editor extends Component {
     if (signedIn.code) {
       return signedIn.code.map(({ code, id }) => (
         <CodeBlock
+          editCode={this.editCode}
           code={code}
           language="javascript"
           style="atomOneDark"
@@ -137,7 +144,7 @@ class Editor extends Component {
   render() {
     const props = this.generateProps({ onClick: this.handleMenuClick });
     const {
-      editorConfig: { theme, language },
+      editorConfig: { theme, language, code },
       user: { signedIn },
       data: { users }
     } = this.props;
@@ -151,10 +158,11 @@ class Editor extends Component {
             enableBasicAutoCompletion={true}
             width={'70%'}
             height={'35em'}
-            value={this.state.code}
+            value={code}
             onChange={this.handleChange}
             mode={language}
             theme={theme}
+            editorProps={{ $blockScrolling: true }}
           />
           <SaveButton onClick={this.saveCurrentCode}>
             {signedIn ? 'Save' : 'Sign in to Save'}

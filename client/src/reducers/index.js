@@ -31,6 +31,12 @@ export function editorConfig(state: Object = initialConfig, action: Object) {
         ...state,
         menuVisible: !state.menuVisible
       };
+
+    case c.SAVE_CODE:
+      return {
+        ...state,
+        code: action.code
+      };
     default:
       return state;
   }

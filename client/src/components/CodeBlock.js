@@ -20,16 +20,27 @@ const CodeBlock = ({
   showLineNumbers,
   language,
   style,
-  code
+  code,
+  editCode
 }: {
+  editCode: void => void,
   showLineNumbers: Boolean,
   language: String,
   style: Object,
   code: String
 }) => (
-  <Code showLineNumbers language={language} style={codeStyle[style]}>
+  <Code
+    showLineNumbers
+    language={language}
+    style={codeStyle[style]}
+    onClick={() => editCode(code)}
+  >
     {code}
   </Code>
 );
+
+CodeBlock.DefaultProps = {
+  editCode: () => null
+};
 
 export default CodeBlock;
