@@ -19,11 +19,11 @@ A React/Redux JS app which attempts to build on the functionality of Github's gi
 * `git clone` the repository
 * `cd client && yarn install`
 * `cd ../server/ && yarn install`
-* `yarn run both:dev`
+* From the `client` directory `yarn run both:dev`
 
 
 ## Todo
-- [ ] Thorough form validation
+- [ ] Improve form validation
 - [ ] Improve test coverage
 - [ ] Add click to edit saved code functionality
 - [ ] Implement REPL
