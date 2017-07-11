@@ -29,7 +29,7 @@ A React/Redux JS app which attempts to build on the functionality of Github's gi
 ## Todo
 - [ ] Improve form validation
 - [ ] Improve test coverage
-- [ ] Add click to edit saved code functionality
+- [x] Add click to edit saved code functionality
 - [ ] Implement REPL
 - [ ] Add Moar configuration options
 - [ ] Allow snippets to be imported
