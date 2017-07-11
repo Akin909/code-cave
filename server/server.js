@@ -7,7 +7,7 @@ import { schema } from './graphql/schema.js';
 const app = express();
 const port = process.env.PORT || 4001;
 
-app.use('*', cors({ origin: 'http://localhost:8080' }));
+app.use(cors());
 
 app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
 
