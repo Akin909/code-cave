@@ -42,6 +42,12 @@ class Login extends Component {
     error: ''
   };
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.error.length > 1) {
+      this.setState({ error: '' }); //Remove error message on next update if has been triggered
+    }
+  }
+
   handleChange = (e: { target: { id: string, value: string } }) => {
     const { target: { id, value } } = e;
     this.setState({
@@ -57,9 +63,7 @@ class Login extends Component {
     const { mutate, signIn, history } = this.props;
     e.preventDefault();
     const { input } = this.state;
-    const inputsAreEmpty = !Object.values(input).every(
-      (value: String) => value
-    );
+    const inputsAreEmpty = !Object.values(input).every((value: mixed) => value);
     //TODO add more intensive client and serverside validation
     if (inputsAreEmpty)
       return this.setState({ error: 'Please fill out all inputs' });
