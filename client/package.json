@@ -8,6 +8,12 @@
   "scripts": {
     "start": "NODE_ENV=production webpack-dev-server",
     "dev": "NODE_ENV=development webpack-dev-server",
+    "clean-build": "rimraf build && mkdir build",
+    "prebuild": "npm run clean-build",
+    "build:prod": "webpack NODE_ENV=production --config webpack.config.prod.js",
+    "renameForSurge": "mv build/index.html build/200.html",
+    "surge": "surge ./build --domain code-cave.surge.sh",
+    "deploy": "run-s build:prod renameForSurge surge",
     "server": "NODE_ENV=development nodemon ./../server/server.js --exec babel-node -e js",
     "both:dev": "NODE_ENV=development concurrently \"webpack-dev-server\" \"nodemon ./../server/server.js --exec babel-node -e js\"",
     "both:prod": "NODE_ENV=production concurrently \"webpack-dev-server\" \"nodemon ./../server/server.js --exec babel-node -e js\"",
@@ -40,6 +46,7 @@
     "react-addons-test-utils": "^15.6.0",
     "react-test": "^0.1.1",
     "renderer": "^0.1.5",
+    "rimraf": "^2.6.1",
     "url-loader": "^0.5.9",
     "webpack": "^2.6.1",
     "webpack-dev-server": "^2.4.5"

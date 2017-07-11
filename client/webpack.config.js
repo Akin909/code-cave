@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const path = require('path');
 const htmlWebPackPlugin = require('html-webpack-plugin');
 
@@ -62,6 +63,11 @@ module.exports = {
       template: './index.html',
       inject: true,
       filename: 'index.html'
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+      }
     })
   ]
 };

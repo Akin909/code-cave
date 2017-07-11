@@ -24,7 +24,7 @@ const AppContainer = styled.div`
   font-family: Helvetica;
   background-color: black;
 `;
-
+console.log(process.env.NODE_ENV);
 export const networkInterface = createNetworkInterface({
   uri: process.env.NODE_ENV === 'production'
     ? 'https://code-cave-backend.herokuapp.com/graphql'
