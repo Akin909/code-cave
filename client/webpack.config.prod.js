@@ -6,7 +6,7 @@ module.exports = {
   entry: ['babel-polyfill', path.resolve(__dirname, 'src', 'index.js')],
 
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js',
     // necessary for HMR to know where to load the hot update chunks
     publicPath: './'
@@ -17,11 +17,6 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
-        exclude: [/node_modules/],
-        use: [{ loader: 'babel-loader' }]
-      },
-      {
         test: /\.css$/,
         use: [
           'style-loader',
@@ -29,8 +24,27 @@ module.exports = {
         ]
       },
       {
-        test: /\.svg$/,
-        use: 'file-loader'
+        test: /\.(png|jpg)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: { limit: 10000 }
+          }
+        ]
+      },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: ['file-loader']
+      },
+      {
+        test: /\.jsx?$/,
+        exclude: [/node_modules/],
+        use: [
+          {
+            loader: 'babel-loader',
+            options: { presets: ['es2015', 'stage-0'] }
+          }
+        ]
       }
     ]
   },
