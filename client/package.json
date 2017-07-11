@@ -8,8 +8,9 @@
   "scripts": {
     "start": "NODE_ENV=production webpack-dev-server",
     "dev": "NODE_ENV=development webpack-dev-server",
-    "server": "nodemon ./../server/server.js --exec babel-node -e js",
-    "both": "concurrently \"webpack-dev-server\" \"nodemon ./../server/server.js --exec babel-node -e js\"",
+    "server": "NODE_ENV=development nodemon ./../server/server.js --exec babel-node -e js",
+    "both:dev": "NODE_ENV=development concurrently \"webpack-dev-server\" \"nodemon ./../server/server.js --exec babel-node -e js\"",
+    "both:prod": "NODE_ENV=production concurrently \"webpack-dev-server\" \"nodemon ./../server/server.js --exec babel-node -e js\"",
     "build": "webpack -p",
     "test": "jest --watch",
     "test:coverage": "jest --coverage"
