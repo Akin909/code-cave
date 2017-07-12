@@ -42,7 +42,7 @@ export function editorConfig(state: Object = initialConfig, action: Object) {
     case c.SAVE_EVAL:
       return {
         ...state,
-        repl: action.code
+        repl: state.repl ? state.repl + '\n' + action.code : action.code
       };
     default:
       return state;

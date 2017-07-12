@@ -1,6 +1,5 @@
 //@flow
 import React, { Component } from 'react';
-import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
 import styled from 'styled-components';
@@ -141,7 +140,6 @@ class Editor extends Component {
       user: { signedIn },
       data: { users }
     } = this.props;
-    console.log('code', code);
     return (
       <EditorContainer row>
         <Options {...props} />
