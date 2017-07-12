@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
+import { logout } from './../actions';
 import { StyledLink } from './Styled';
 import lambda from './../assets/lambda.png';
 
 const DarkLink = StyledLink.extend`
+  justify-content: center;
   width: 100%;
+  height: 100%;
   margin: 0;
   padding: 0.3em;
   transition: background-color 0.15s ease-in;
@@ -14,8 +17,16 @@ const DarkLink = StyledLink.extend`
     background-color: black;
   }
 `;
+
+const DarkLinkStyles = DarkLink.withComponent('div');
+
+const Logout = DarkLinkStyles.extend`
+  justify-content: flex-start;
+  background-color: #172232;
+  border: none;
+`;
+
 // Idea for dark nav #383838;
-//#172232 - dark blue
 const NavContainer = styled.header`
   width: 100%;
   height: 3em;
@@ -43,9 +54,11 @@ const LogoIcon = styled.img`
 `;
 
 const Links = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 100%;
   margin: 0;
-  display: flex;
 `;
 
 const UserGreeting = LogoText.extend`
@@ -55,7 +68,13 @@ const UserGreeting = LogoText.extend`
 
 const LogoContainer = Links.extend``;
 
-const Nav = ({ signedIn }: { signedIn: Object }) => (
+const Nav = ({
+  signedIn,
+  logout
+}: {
+  signedIn: Object,
+  logout: void => Object
+}) => (
   <NavContainer>
     <LogoContainer>
       <LogoText>CodeCave</LogoText>
@@ -65,7 +84,9 @@ const Nav = ({ signedIn }: { signedIn: Object }) => (
     <Links>
       <DarkLink to="/">Home</DarkLink>
       <DarkLink to="/edit">Editor</DarkLink>
-      <DarkLink to="/login">Login</DarkLink>
+      {signedIn
+        ? <Logout onClick={logout}>Logout</Logout>
+        : <DarkLink to="/login">Login</DarkLink>}
     </Links>
   </NavContainer>
 );
@@ -74,4 +95,4 @@ const mapStateToProps = ({ user: { signedIn } }: { signedIn: Object }) => ({
   signedIn
 });
 
-export default connect(mapStateToProps)(Nav);
+export default connect(mapStateToProps, { logout })(Nav);

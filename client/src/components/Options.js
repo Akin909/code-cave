@@ -20,7 +20,7 @@ const OptionsDrawer = styled.div`
   left: 0;
   top: 0;
   width: 20vw;
-  height: 100%;
+  height: 100vh;
   background-color: grey;
   transition: all 0.5s ease-in;
   transform: ${props => (props.menuVisible ? 'translateX(0%)' : 'translateX(-100%)')};

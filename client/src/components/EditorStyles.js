@@ -5,7 +5,8 @@ import styled from 'styled-components';
 export const SaveButton = Button.extend`
   font-size: 1.3em;
   margin: 0.5em;
-  min-width: 8em;
+  min-width: 7.5em;
+  min-heigth: 3em;
   width: auto;
 `;
 
@@ -18,9 +19,8 @@ export const MenuButton = RoundButton.extend`
 export const EditorContainer = Container.extend`
   flex-direction: column;
   position: relative;
-  height: 100vh;
-  min-width: 100vw;
-  width: auto;
+  height: 100%;
+  width: 100%;
   overflowX:scroll;
 `;
 

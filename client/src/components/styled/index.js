@@ -16,6 +16,7 @@ export const Container = styled.div`
 `;
 
 export const Grid = Container.extend`
+  width: 100%;
   align-items: flex-start;
   flex-wrap: wrap;
   overflow-y: scroll;
@@ -33,6 +34,12 @@ export const StyledLink = styled(Link)`
 `;
 
 export const Title = styled.h1`
+  color: white;
+  text-align: center;
+`;
+
+export const Error = styled.h1`
+  font-size: 1.2em;
   color: white;
   text-align: center;
 `;

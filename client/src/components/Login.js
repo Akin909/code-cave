@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import { withApollo, graphql, compose } from 'react-apollo';
 
 import { addUserMutation, findUser, usersQuery } from './../queries';

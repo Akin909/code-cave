@@ -1,6 +1,6 @@
 //@flow
 import React from 'react';
-import { Form as DefaultForm, Title, Input, Button } from './Styled';
+import { Form as DefaultForm, Title, Input, Button, Error } from './Styled';
 import styled from 'styled-components';
 
 const LoginForm = DefaultForm.extend`
@@ -34,11 +34,10 @@ const Form = ({
 }) => (
   <LoginForm>
     <Title>{returningUser ? 'Login' : 'Signup Form'}</Title>
-    {error || //If there is an error from parent state or from apollo
-      (data &&
-      data.error && //Render an error message
-        //TODO this complicated comparison is unclear
-        <Error>Woops Something Went Wrong: {error}</Error>)}
+    {(error || //If there is an error from parent state or from apollo
+      (data && data.error)) && //Render an error message
+      //TODO this complicated comparison is unclear
+      <Error>Woops something went wrong 🙇🏾: {error}</Error>}
     {Object.keys(input).map(field => {
       if (returningUser && field === 'email') {
         return null;

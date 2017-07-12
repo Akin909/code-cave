@@ -56,6 +56,11 @@ export function user(state: Object = {}, action) {
         ...state,
         signedIn: action.user
       };
+    case c.LOG_OUT:
+      return {
+        ...state,
+        signedIn: null
+      };
     default:
       return state;
   }

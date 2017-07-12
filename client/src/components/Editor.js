@@ -103,8 +103,8 @@ class Editor extends Component {
   };
 
   saveCurrentCode = async () => {
-    const { user: { signedIn }, mutate, history } = this.props;
-    this.props.saveCode(code);
+    const { saveCode, user: { signedIn }, mutate, history } = this.props;
+    saveCode(code);
     if (signedIn) {
       const received = await mutate({
         variables: {
@@ -165,7 +165,7 @@ class Editor extends Component {
             Run Code
           </SaveButton>
         </EditorViews>
-        {signedIn && <Grid>{this.renderUserCode(signedIn)}</Grid>}
+        {signedIn && <Grid row>{this.renderUserCode(signedIn)}</Grid>}
       </EditorContainer>
     );
   }

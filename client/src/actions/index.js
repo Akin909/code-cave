@@ -33,3 +33,7 @@ export const signIn = (user: Object) => ({
 export const toggleMenu = () => ({
   type: c.TOGGLE_MENU
 });
+
+export const logout = () => ({
+  type: c.LOG_OUT
+});
