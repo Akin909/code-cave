@@ -56,7 +56,10 @@ const Options = ({
       <Form>
         <Label>
           Font Size:
-          <Input placeholder="Font size" onChange={changeFontSize} />
+          <Input
+            placeholder="Font size"
+            onChange={e => changeFontSize(e.target.value)}
+          />
         </Label>
         <Label>
           Language:

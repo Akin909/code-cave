@@ -136,7 +136,7 @@ class Editor extends Component {
   render() {
     const props = this.generateProps({ onClick: this.handleMenuClick });
     const {
-      editorConfig: { theme, language, code, repl },
+      editorConfig: { theme, language, code, repl, fontSize },
       user: { signedIn },
       data: { users }
     } = this.props;
@@ -152,6 +152,7 @@ class Editor extends Component {
             height={'35em'}
             value={[code, repl]}
             splits={2}
+            fontSize={fontSize}
             orientation="beside"
             onChange={this.handleChange}
             mode={language}

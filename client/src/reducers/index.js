@@ -20,7 +20,7 @@ export function editorConfig(state: Object = initialConfig, action: Object) {
     case c.CHANGE_FONT_SIZE:
       return {
         ...state,
-        fontSize: action.fontSize
+        fontSize: action.fontSize + 'px'
       };
 
     case c.CHANGE_LANGUAGE:
