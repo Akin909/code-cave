@@ -5,7 +5,9 @@ const initialConfig = {
   theme: 'tomorrow_night',
   language: 'javascript',
   fontSize: '14px',
-  menuVisible: false
+  menuVisible: false,
+  code: '',
+  repl: ''
 };
 
 export function editorConfig(state: Object = initialConfig, action: Object) {
@@ -36,6 +38,11 @@ export function editorConfig(state: Object = initialConfig, action: Object) {
       return {
         ...state,
         code: action.code
+      };
+    case c.SAVE_EVAL:
+      return {
+        ...state,
+        repl: action.code
       };
     default:
       return state;

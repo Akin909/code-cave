@@ -5,6 +5,10 @@ export const saveCode = (code: string) => ({
   type: c.SAVE_CODE,
   code
 });
+export const saveEvaluated = (code: string) => ({
+  type: c.SAVE_EVAL,
+  code
+});
 
 export const changeFontSize = (fontSize: string) => ({
   type: c.CHANGE_FONT_SIZE,

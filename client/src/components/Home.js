@@ -19,12 +19,17 @@ const UserContainer = styled.div`
   height: 100%;
 `;
 
+const Loading = UserTitle.extend`
+`;
+
 class Home extends Component {
   props = {
     saveCode: string => Object,
     data: Object,
-    users: Array
+    users: Array,
+    history: Object
   };
+
 
   editCode = code => {
     const { saveCode, history: { push } } = this.props;
@@ -35,26 +40,29 @@ class Home extends Component {
     const { data: { users } } = this.props;
     return (
       <Container>
-        {users &&
-          users.filter(user => user.code.length).map((user: Object) => (
-            <UserContainer key={user.id}>
-              <UserTitle>
-                {user.username}
-              </UserTitle>
-              <Grid row>
-                {user.code.map(({ code, id }: { code: string, id: string }) => (
-                  <CodeBlock
-                    showLineNumbers
-                    key={id}
-                    language="javascript"
-                    style="atomOneDark"
-                    code={code}
-                    editCode={this.editCode}
-                  />
-                ))}
-              </Grid>
-            </UserContainer>
-          ))}
+        {users
+          ? users.filter(user => user.code.length).map((user: Object) => (
+              <UserContainer key={user.id}>
+                <UserTitle>
+                  {user.username}
+                </UserTitle>
+                <Grid row>
+                  {user.code.map(
+                    ({ code, id }: { code: string, id: string }) => (
+                      <CodeBlock
+                        showLineNumbers
+                        key={id}
+                        language="javascript"
+                        style="atomOneDark"
+                        code={code}
+                        editCode={this.editCode}
+                      />
+                    )
+                  )}
+                </Grid>
+              </UserContainer>
+            ))
+          : <Loading>Loading...</Loading>}
       </Container>
     );
   }

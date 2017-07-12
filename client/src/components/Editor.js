@@ -6,6 +6,7 @@ import { graphql, compose } from 'react-apollo';
 import styled from 'styled-components';
 import brace from 'brace';
 import { Title, Grid } from './Styled';
+import { split as SplitAceEditor } from 'react-ace';
 
 import * as queries from './../queries/';
 import {
@@ -17,16 +18,16 @@ import {
   SaveButton
 } from './EditorStyles';
 
-import {
-  saveCode,
-  changeTheme,
-  changeFontSize,
-  changeLanguage,
-  toggleMenu
-} from './../actions/';
+import * as actions from './../actions/';
 
 import Options from './Options';
 import CodeBlock from './CodeBlock';
+
+const Repl = styled.pre`
+  height: 80%;
+  width: 30%;
+  background-color: grey;
+`;
 
 const themes = [
   'monokai',
@@ -71,7 +72,7 @@ languages.forEach(lang => {
 
 class Editor extends Component {
   state = {
-    code: '',
+    repl: '',
     languages,
     themes
   };
@@ -86,7 +87,8 @@ class Editor extends Component {
     this.props.toggleMenu();
   };
 
-  handleChange = (code: string) => {
+  handleChange = (codeAndRepl: Array<string>) => {
+    const [code] = codeAndRepl;
     this.props.saveCode(code);
   };
 
@@ -94,8 +96,14 @@ class Editor extends Component {
     this.props.saveCode(code);
   };
 
+  evalCode = () => {
+    const { saveEvaluated, editorConfig: { code } } = this.props;
+    const evaluated = eval(code);
+    //console.log('evaluated', evaluated);
+    saveEvaluated(!evaluated ? 'undefined' : evaluated.toString());
+  };
+
   saveCurrentCode = async () => {
-    const { code } = this.state;
     const { user: { signedIn }, mutate, history } = this.props;
     this.props.saveCode(code);
     if (signedIn) {
@@ -129,21 +137,24 @@ class Editor extends Component {
   render() {
     const props = this.generateProps({ onClick: this.handleMenuClick });
     const {
-      editorConfig: { theme, language, code },
+      editorConfig: { theme, language, code, repl },
       user: { signedIn },
       data: { users }
     } = this.props;
+    console.log('code', code);
     return (
       <EditorContainer row>
         <Options {...props} />
         <Title>Editor</Title>
         <MenuButton {...props} />
         <EditorViews>
-          <CodeEditor
+          <SplitAceEditor
             enableBasicAutoCompletion={true}
             width={'70%'}
             height={'35em'}
-            value={code}
+            value={[code, repl]}
+            splits={2}
+            orientation="beside"
             onChange={this.handleChange}
             mode={language}
             theme={theme}
@@ -151,6 +162,9 @@ class Editor extends Component {
           />
           <SaveButton onClick={this.saveCurrentCode}>
             {signedIn ? 'Save' : 'Sign in to Save'}
+          </SaveButton>
+          <SaveButton onClick={this.evalCode}>
+            Run Code
           </SaveButton>
         </EditorViews>
         {signedIn && <Grid>{this.renderUserCode(signedIn)}</Grid>}
@@ -182,11 +196,5 @@ export default compose(
       ]
     })
   }),
-  connect(mapStateToProps, {
-    saveCode,
-    changeFontSize,
-    changeTheme,
-    changeLanguage,
-    toggleMenu
-  })
+  connect(mapStateToProps, { ...actions })
 )(Editor);
