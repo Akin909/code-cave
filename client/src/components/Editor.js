@@ -76,6 +76,10 @@ class Editor extends Component {
     themes
   };
 
+  componentWillUnmount() {
+    this.props.saveEvaluated();
+  }
+
   generateProps = (propsObj: Object | void) => ({
     ...this.state,
     ...this.props,
