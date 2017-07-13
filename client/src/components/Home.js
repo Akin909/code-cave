@@ -30,7 +30,6 @@ class Home extends Component {
     history: Object
   };
 
-
   editCode = code => {
     const { saveCode, history: { push } } = this.props;
     saveCode(code);
