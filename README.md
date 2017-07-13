@@ -2,6 +2,8 @@
 
 A React/Redux JS app which attempts to build on the functionality of Github's gists by not only providing a place where code can be saved but also providing a better tooled online editor i.e. with syntax highlighting themes and a REPL so that code can be evalutated as it is being written.
 
+**N.B.** This project is under active development so functionality might change, I will try and limit this to a staging version, if you're interested in potential upcoming features feel free to check out the [staging version](https://code-cave-staging.surge.sh)
+
 
 <img src="./code-cave.gif" width="500px" height="400px" alt="demo of code cave app"/>
 
