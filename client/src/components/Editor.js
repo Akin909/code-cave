@@ -101,7 +101,13 @@ class Editor extends Component {
   };
 
   saveCurrentCode = async () => {
-    const { saveCode, user: { signedIn }, mutate, history } = this.props;
+    const {
+      editorConfig: { code },
+      saveCode,
+      user: { signedIn },
+      mutate,
+      history
+    } = this.props;
     saveCode(code);
     if (signedIn) {
       const received = await mutate({
