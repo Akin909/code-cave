@@ -115,21 +115,18 @@ class Editor extends Component {
     }
   };
 
-  renderUserCode = signedIn => {
-    if (signedIn.code) {
-      return signedIn.code.map(({ code, id }) => (
-        <CodeBlock
-          editCode={this.editCode}
-          code={code}
-          language="javascript"
-          style="atomOneDark"
-          key={id}
-        />
-      ));
-    } else {
-      return <NoCode>No Saved Code</NoCode>;
-    }
-  };
+  renderUserCode = signedIn =>
+    signedIn.code
+      ? signedIn.code.map(({ code, id }) => (
+          <CodeBlock
+            editCode={this.editCode}
+            code={code}
+            language="javascript"
+            style="atomOneDark"
+            key={id}
+          />
+        ))
+      : <NoCode>No Saved Code</NoCode>;
 
   render() {
     const props = this.generateProps({ onClick: this.handleMenuClick });
