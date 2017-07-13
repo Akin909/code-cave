@@ -22,12 +22,6 @@ import * as actions from './../actions/';
 import Options from './Options';
 import CodeBlock from './CodeBlock';
 
-const Repl = styled.pre`
-  height: 80%;
-  width: 30%;
-  background-color: grey;
-`;
-
 const themes = [
   'monokai',
   'github',
