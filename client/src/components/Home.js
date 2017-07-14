@@ -37,6 +37,7 @@ class Home extends Component {
   };
   render() {
     const { data: { users } } = this.props;
+    console.log('users', users);
     return (
       <Container>
         {users
